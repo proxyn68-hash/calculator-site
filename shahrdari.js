@@ -28,21 +28,22 @@ function formatNumberInput(input) {
 
         let cursorPosition = this.selectionStart;
 
-        let oldLength = this.value.length;
+        let oldValue = this.value;
 
 
-        let value = cleanNumber(this.value);
+        let value = cleanNumber(oldValue);
 
 
         if (value !== "" && !isNaN(value)) {
 
-            this.value = Number(value).toLocaleString("en-US");
+            let formatted = Number(value).toLocaleString("en-US");
+
+            this.value = formatted;
 
 
-            let newLength = this.value.length;
+            let diff = formatted.length - oldValue.length;
 
-
-            cursorPosition += newLength - oldLength;
+            cursorPosition += diff;
 
 
             this.setSelectionRange(
@@ -51,14 +52,6 @@ function formatNumberInput(input) {
             );
 
         }
-
-    });
-
-
-
-    input.addEventListener("focus", function () {
-
-        this.value = cleanNumber(this.value);
 
     });
 
@@ -75,14 +68,13 @@ formatNumberInput(customTechnicalInput);
 
 
 
-// حرکت با Enter بین فیلدها
+// حرکت با Enter
 
 const inputList = [
     outsideInput,
     franchiseInput,
     customTechnicalInput
 ];
-
 
 
 inputList.forEach((input, index) => {
@@ -97,9 +89,18 @@ inputList.forEach((input, index) => {
             event.preventDefault();
 
 
-            this.value = cleanNumber(this.value);
+            // حفظ نمایش جداکننده
+            let value = cleanNumber(this.value);
+
+            if (value !== "" && !isNaN(value)) {
+
+                this.value = Number(value).toLocaleString("en-US");
+
+            }
 
 
+
+            // رفتن به فیلد بعدی فعال
 
             for (let i = index + 1; i < inputList.length; i++) {
 
@@ -135,7 +136,6 @@ inputList.forEach((input, index) => {
 
 
 
-
 function getNumber(value) {
 
     return Number(
@@ -143,7 +143,6 @@ function getNumber(value) {
     ) || 0;
 
 }
-
 
 
 
@@ -166,7 +165,6 @@ function selectFixed() {
 
 
 }
-
 
 
 
@@ -200,8 +198,6 @@ function selectCustom() {
 
 
 
-
-
 function calculate() {
 
 
@@ -216,32 +212,23 @@ function calculate() {
 
     if (!customTechnicalInput.disabled) {
 
-
         technical = customValue;
-
 
     }
 
 
 
-
     finalAmount = Math.floor(
 
-
         outsideValue * 0.7 +
-
         technical +
-
         franchiseValue
-
 
     );
 
 
 
-
     resultBox.innerHTML =
-
         finalAmount.toLocaleString("en-US") + " ریال";
 
 
@@ -254,30 +241,22 @@ function calculate() {
 
 
 
-
 function copyResult() {
 
 
     navigator.clipboard.writeText(
-
         finalAmount.toString()
-
     );
-
 
 
     toastBox.classList.add("show");
 
 
-
     setTimeout(() => {
-
 
         toastBox.classList.remove("show");
 
-
-    }, 1500);
-
+    },1500);
 
 
 }
@@ -288,9 +267,7 @@ function copyResult() {
 
 
 
-
-
-// کلید میانبر F2 برای کپی مبلغ
+// میانبر F2
 
 document.addEventListener("keydown", function(event) {
 
