@@ -1,12 +1,16 @@
 let technical = 727000, finalAmount = 0;
 
 function formatNumberInput(input) {
-    input.addEventListener('input', function () {
+    input.addEventListener('blur', function () {
         let value = this.value.replace(/,/g, '');
-        
+
         if (value) {
             this.value = Number(value).toLocaleString('en-US');
         }
+    });
+
+    input.addEventListener('focus', function () {
+        this.value = this.value.replace(/,/g, '');
     });
 }
 
