@@ -44,6 +44,7 @@ function formatNumberInput(input) {
 }
 
 
+
 formatNumberInput(outsideInput);
 formatNumberInput(franchiseInput);
 formatNumberInput(customTechnicalInput);
@@ -52,7 +53,6 @@ formatNumberInput(customTechnicalInput);
 
 
 
-// حرکت با Enter
 const inputList = [
     outsideInput,
     franchiseInput,
@@ -60,27 +60,26 @@ const inputList = [
 ];
 
 
+
 inputList.forEach((input, index) => {
 
     input.addEventListener("keydown", function(event) {
-
 
         if (event.key === "Enter") {
 
             event.preventDefault();
 
 
-            // ذخیره مقدار فعلی
             this.value = cleanNumber(this.value);
 
 
 
             for (let i = index + 1; i < inputList.length; i++) {
 
-
                 if (!inputList[i].disabled) {
 
                     inputList[i].focus();
+
                     return;
 
                 }
@@ -92,11 +91,10 @@ inputList.forEach((input, index) => {
 
         }
 
-
     });
 
-
 });
+
 
 
 
@@ -112,18 +110,16 @@ function getNumber(value) {
 
 
 
-function selectFixed() {
 
+
+function selectFixed() {
 
     technical = 727000;
 
-
     customTechnicalInput.disabled = true;
-
 
     fixedCardBox.classList.add("active");
     customCardBox.classList.remove("active");
-
 
 }
 
@@ -132,22 +128,17 @@ function selectFixed() {
 
 
 
-function selectCustom() {
 
+function selectCustom() {
 
     technical = 0;
 
-
     customTechnicalInput.disabled = false;
-
 
     customTechnicalInput.focus();
 
-
-
     customCardBox.classList.add("active");
     fixedCardBox.classList.remove("active");
-
 
 }
 
@@ -200,7 +191,6 @@ function calculate() {
 
 function copyResult() {
 
-
     navigator.clipboard.writeText(
         finalAmount.toString()
     );
@@ -215,5 +205,21 @@ function copyResult() {
 
     },1500);
 
-
 }
+
+
+
+
+
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "F2") {
+
+        event.preventDefault();
+
+        copyResult();
+
+    }
+
+});
