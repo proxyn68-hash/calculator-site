@@ -45,6 +45,67 @@ h1 {
 
 
 
+/* کارت های صفحه اصلی */
+
+.calculator-card {
+
+    border: 2px solid #ddd;
+
+    border-radius: 12px;
+
+    padding: 25px 15px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    background: white;
+
+    transition: 0.2s;
+
+}
+
+
+
+.calculator-card:hover {
+
+    border-color: #8dc63f;
+
+    background: #f7ffe9;
+
+    transform: translateY(-3px);
+
+}
+
+
+
+.calculator-card h2 {
+
+    color: #414042;
+
+    margin: 0 0 10px;
+
+}
+
+
+
+.calculator-card p {
+
+    color: #666;
+
+    margin: 0;
+
+    font-size: 14px;
+
+}
+
+
+
+
+
+/* ورودی ها */
+
+
 label {
 
     display: block;
@@ -58,7 +119,6 @@ label {
     font-weight: bold;
 
 }
-
 
 
 
@@ -81,7 +141,6 @@ input {
     direction: ltr;
 
 }
-
 
 
 
@@ -108,52 +167,6 @@ input:focus {
 
 
 
-/* دکمه های صفحه اصلی و ماشین حساب */
-
-.button,
-button {
-
-    display: block;
-
-    width: 100%;
-
-    height: 45px;
-
-    margin-top: 20px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: #8dc63f;
-
-    color: white;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
-    text-align: center;
-
-    text-decoration: none;
-
-    line-height: 45px;
-
-}
-
-
-
-button:hover,
-.button:hover {
-
-    opacity: 0.9;
-
-}
-
-
-
-
-
 /* کارت های حق فنی */
 
 
@@ -166,7 +179,6 @@ button:hover,
     margin-bottom: 10px;
 
 }
-
 
 
 
@@ -230,6 +242,43 @@ button:hover,
 
 
 
+/* دکمه ها */
+
+
+button {
+
+    width: 100%;
+
+    height: 45px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #8dc63f;
+
+    color: white;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+
+
+button:hover {
+
+    opacity: 0.9;
+
+}
+
+
+
+
+
 /* نتیجه */
 
 
@@ -249,7 +298,6 @@ button:hover,
 
 
 
-
 .result-box h2 {
 
     font-size: 18px;
@@ -257,7 +305,6 @@ button:hover,
     color: #414042;
 
 }
-
 
 
 
@@ -276,73 +323,8 @@ button:hover,
 
 
 
-/* صفحه اول - بیمه ها */
 
-
-.insurance-box {
-
-    margin-top: 25px;
-
-    background: #f7f7f7;
-
-    border-radius: 12px;
-
-    padding: 15px;
-
-}
-
-
-
-
-.insurance-box h2 {
-
-    font-size: 18px;
-
-    color: #414042;
-
-    text-align: center;
-
-    margin-top: 0;
-
-}
-
-
-
-
-.insurance-list {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
-
-}
-
-
-
-
-.insurance-item {
-
-    background: white;
-
-    border-right: 4px solid #8dc63f;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    color: #414042;
-
-    font-weight: bold;
-
-}
-
-
-
-
-
-/* راهنمای کلید میانبر */
+/* راهنمای میانبر */
 
 
 .shortcut-help {
@@ -374,7 +356,8 @@ button:hover,
 
 
 
-/* بازگشت */
+
+/* لینک بازگشت */
 
 
 .back {
