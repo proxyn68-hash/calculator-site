@@ -1,112 +1,164 @@
 let technical = 727000;
 let finalAmount = 0;
 
-function formatNumberInput(input) {
-    input.addEventListener('blur', function () {
-        let value = this.value.replace(/,/g, '').trim();
+const outsideInput = document.getElementById("outside");
+const franchiseInput = document.getElementById("franchise");
+const customTechnicalInput = document.getElementById("customTechnical");
+const resultBox = document.getElementById("result");
+const toastBox = document.getElementById("toast");
+const fixedCardBox = document.getElementById("fixedCard");
+const customCardBox = document.getElementById("customCard");
 
-        if (value !== '' && !isNaN(value)) {
-            this.value = Number(value).toLocaleString('en-US');
+
+function formatNumberInput(input) {
+
+    input.addEventListener("blur", function () {
+
+        let value = this.value.replace(/,/g, "").trim();
+
+        if (value !== "" && !isNaN(value)) {
+            this.value = Number(value).toLocaleString("en-US");
         }
+
     });
+
 }
 
-formatNumberInput(outside);
-formatNumberInput(franchise);
-formatNumberInput(customTechnical);
+
+formatNumberInput(outsideInput);
+formatNumberInput(franchiseInput);
+formatNumberInput(customTechnicalInput);
+
 
 
 function getNumber(value) {
-    return Number(String(value).replace(/,/g, '')) || 0;
+
+    return Number(
+        String(value).replace(/,/g, "")
+    ) || 0;
+
 }
 
 
-// حرکت با Enter بین فیلدها
-const inputs = [outside, franchise, customTechnical];
 
-inputs.forEach((input, index) => {
-    input.addEventListener('keydown', function (e) {
+// حرکت با Enter
+const inputList = [
+    outsideInput,
+    franchiseInput,
+    customTechnicalInput
+];
 
-        if (e.key === 'Enter') {
-            e.preventDefault();
 
-            for (let i = index + 1; i < inputs.length; i++) {
+inputList.forEach((input, index) => {
 
-                if (!inputs[i].disabled) {
-                    inputs[i].focus();
+    input.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+
+            for (let i = index + 1; i < inputList.length; i++) {
+
+                if (!inputList[i].disabled) {
+
+                    inputList[i].focus();
                     return;
+
                 }
 
             }
 
+
             calculate();
+
         }
 
     });
+
 });
+
 
 
 function selectFixed() {
 
     technical = 727000;
 
-    customTechnical.disabled = true;
+    customTechnicalInput.disabled = true;
 
-    fixedCard.classList.add('active');
-    customCard.classList.remove('active');
+    fixedCardBox.classList.add("active");
+    customCardBox.classList.remove("active");
 
 }
+
 
 
 function selectCustom() {
 
     technical = 0;
 
-    customTechnical.disabled = false;
-    customTechnical.focus();
+    customTechnicalInput.disabled = false;
 
-    customCard.classList.add('active');
-    fixedCard.classList.remove('active');
+    customTechnicalInput.focus();
+
+    customCardBox.classList.add("active");
+    fixedCardBox.classList.remove("active");
 
 }
 
 
+
 function calculate() {
 
-    let outsideValue = getNumber(outside.value);
-    let fr = getNumber(franchise.value);
-    let c = getNumber(customTechnical.value);
+
+    let outsideValue = getNumber(outsideInput.value);
+
+    let franchiseValue = getNumber(franchiseInput.value);
+
+    let customValue = getNumber(customTechnicalInput.value);
 
 
-    if (!customTechnical.disabled) {
-        technical = c;
+
+    if (!customTechnicalInput.disabled) {
+
+        technical = customValue;
+
     }
+
 
 
     finalAmount = Math.floor(
         outsideValue * 0.7 +
         technical +
-        fr
+        franchiseValue
     );
 
 
-    result.innerHTML =
-        finalAmount.toLocaleString('en-US') + ' ریال';
+
+    resultBox.innerHTML =
+        finalAmount.toLocaleString("en-US") + " ریال";
+
 
 }
 
 
+
 function copyResult() {
 
-    navigator.clipboard.writeText(finalAmount.toString());
 
-    toast.classList.add('show');
+    navigator.clipboard.writeText(
+        finalAmount.toString()
+    );
+
+
+    toastBox.classList.add("show");
 
 
     setTimeout(() => {
 
-        toast.classList.remove('show');
+        toastBox.classList.remove("show");
 
-    }, 1500);
+    },1500);
+
 
 }
