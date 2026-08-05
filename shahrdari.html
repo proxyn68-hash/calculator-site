@@ -1,68 +1,125 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<title>محاسبه بیمه شهرداری</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>ماشین حساب شهرداری</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>محاسبه بیمه شهرداری</h1>
+    <h1>ماشین حساب شهرداری</h1>
 
-<label>خارج تعهد:</label>
-<input id="outside" type="number">
 
-<label class="section-title">حق فنی:</label>
+    <label>خارج تعهد:</label>
+    <input id="outside" type="text" inputmode="numeric" placeholder="مبلغ خارج تعهد">
 
-<div class="technical-options">
 
-<div class="technical-card active" id="fixedCard" onclick="selectFixed()">
-<input type="radio" checked>
-<div>
-<strong>مبلغ ثابت</strong>
-<br>
-<span>727,000 ریال</span>
+    <label class="section-title">حق فنی:</label>
+
+    <div class="technical-options">
+
+
+        <div class="technical-card active" id="fixedCard" onclick="selectFixed()">
+
+            <input type="radio" checked>
+
+            <div>
+                <strong>مبلغ ثابت</strong>
+                <br>
+                <span>727,000 ریال</span>
+            </div>
+
+        </div>
+
+
+
+        <div class="technical-card" id="customCard" onclick="selectCustom()">
+
+            <input type="radio">
+
+            <div>
+                <strong>مبلغ دلخواه</strong>
+                <br>
+                <span>ورود مبلغ توسط کاربر</span>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <input 
+        id="customTechnical" 
+        type="text" 
+        inputmode="numeric"
+        disabled
+        placeholder="مبلغ دلخواه حق فنی"
+    >
+
+
+
+    <label>فرانشیز:</label>
+
+    <input 
+        id="franchise" 
+        type="text" 
+        inputmode="numeric"
+        placeholder="مبلغ فرانشیز"
+    >
+
+
+
+    <button onclick="calculate()">
+        محاسبه
+    </button>
+
+
+
+    <div class="result-box">
+
+        <h2>
+            مبلغ پرداختی بیمه:
+        </h2>
+
+
+        <div id="result">
+            0 ریال
+        </div>
+
+
+        <button onclick="copyResult()">
+            کپی مبلغ
+        </button>
+
+
+    </div>
+
+
+
+    <a class="back" href="index.html">
+        بازگشت
+    </a>
+
+
+
+    <div id="toast">
+        مبلغ کپی شد
+    </div>
+
+
 </div>
-</div>
 
-<div class="technical-card" id="customCard" onclick="selectCustom()">
-<input type="radio">
-<div>
-<strong>مبلغ دلخواه</strong>
-<br>
-<span>ورود مبلغ توسط کاربر</span>
-</div>
-</div>
 
-</div>
-
-<input id="customTechnical" type="number" disabled placeholder="مبلغ دلخواه حق فنی">
-
-<label>فرانشیز:</label>
-<input id="franchise" type="number">
-
-<button onclick="calculate()">محاسبه</button>
-
-<div class="result-box">
-
-<h2>مبلغ پرداختی بیمه:</h2>
-
-<div id="result">0 ریال</div>
-
-<button onclick="copyResult()">کپی مبلغ</button>
-
-</div>
-
-<a class="back" href="index.html">بازگشت</a>
-
-<div id="toast">مبلغ کپی شد</div>
-
-</div>
 
 <script src="shahrdari.js"></script>
 
+
 </body>
+
 </html>
