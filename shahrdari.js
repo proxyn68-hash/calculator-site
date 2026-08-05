@@ -1,5 +1,23 @@
 let technical = 727000, finalAmount = 0;
 
+function formatNumberInput(input) {
+    input.addEventListener('input', function () {
+        let value = this.value.replace(/,/g, '');
+        
+        if (value) {
+            this.value = Number(value).toLocaleString('en-US');
+        }
+    });
+}
+
+formatNumberInput(outside);
+formatNumberInput(franchise);
+formatNumberInput(customTechnical);
+
+function getNumber(value) {
+    return Number(value.replace(/,/g, '')) || 0;
+}
+
 function selectFixed() {
     technical = 727000;
     customTechnical.disabled = true;
@@ -10,22 +28,23 @@ function selectFixed() {
 function selectCustom() {
     technical = 0;
     customTechnical.disabled = false;
+    customTechnical.focus();
     customCard.classList.add('active');
     fixedCard.classList.remove('active');
 }
 
 function calculate() {
-    let outside = Number(document.getElementById('outside').value);
-    let fr = Number(document.getElementById('franchise').value);
-    let c = Number(document.getElementById('customTechnical').value);
+    let outsideValue = getNumber(outside.value);
+    let fr = getNumber(franchise.value);
+    let c = getNumber(customTechnical.value);
 
     if (!customTechnical.disabled) {
         technical = c;
     }
 
-    finalAmount = Math.floor(outside * 0.7 + technical + fr);
+    finalAmount = Math.floor(outsideValue * 0.7 + technical + fr);
 
-    result.innerHTML = finalAmount.toLocaleString() + ' ریال';
+    result.innerHTML = finalAmount.toLocaleString('en-US') + ' ریال';
 }
 
 function copyResult() {
