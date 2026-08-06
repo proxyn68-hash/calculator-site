@@ -571,3 +571,51 @@ opacity:1;
 transform:translateX(50%) translateY(0);
 
 }
+/* صفحه انتخاب بیمه */
+
+.home-container {
+
+    max-width: 900px;
+
+}
+
+
+.home-container .calculator-card {
+
+    width: calc(50% - 10px);
+
+}
+
+
+
+.home-container {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+
+    justify-content: center;
+
+}
+
+
+
+.home-container h1 {
+
+    width: 100%;
+
+}
+
+
+
+@media (max-width:600px){
+
+    .home-container .calculator-card {
+
+        width:100%;
+
+    }
+
+}
