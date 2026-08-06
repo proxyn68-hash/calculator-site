@@ -21,32 +21,25 @@ function cleanNumber(value) {
 
 
 
-
 function formatNumberInput(input) {
 
     input.addEventListener("input", function () {
-
 
         let cursorPosition = this.selectionStart;
 
         let oldValue = this.value;
 
-
         let value = cleanNumber(oldValue);
-
 
 
         if (value !== "" && !isNaN(value)) {
 
-
             let formatted = Number(value).toLocaleString("en-US");
-
 
             this.value = formatted;
 
 
             let diff = formatted.length - oldValue.length;
-
 
             cursorPosition += diff;
 
@@ -56,9 +49,7 @@ function formatNumberInput(input) {
                 cursorPosition
             );
 
-
         }
-
 
     });
 
@@ -75,10 +66,7 @@ formatNumberInput(customTechnicalInput);
 
 
 
-
-// ترتیب جدید:
-// حق فنی → خارج تعهد → فرانشیز
-
+// ترتیب ورود اطلاعات
 const inputList = [
     customTechnicalInput,
     outsideInput,
@@ -115,7 +103,6 @@ inputList.forEach((input, index) => {
 
 
 
-
             for (let i = index + 1; i < inputList.length; i++) {
 
 
@@ -124,17 +111,19 @@ inputList.forEach((input, index) => {
 
                     inputList[i].focus();
 
+                    inputList[i].select();
+
                     return;
 
 
                 }
-
 
             }
 
 
 
             calculate();
+
 
 
         }
@@ -144,7 +133,6 @@ inputList.forEach((input, index) => {
 
 
 });
-
 
 
 
@@ -167,13 +155,19 @@ function selectFixed() {
     technical = 727000;
 
     customTechnicalInput.disabled = true;
+
     customTechnicalInput.value = "";
 
+
     document.getElementById("fixedRadio").checked = true;
+
     document.getElementById("customRadio").checked = false;
 
+
     fixedCardBox.classList.add("active");
+
     customCardBox.classList.remove("active");
+
 
 }
 
@@ -184,19 +178,31 @@ function selectFixed() {
 
 function selectCustom() {
 
+
     technical = 0;
+
 
     customTechnicalInput.disabled = false;
 
+
+
     document.getElementById("fixedRadio").checked = false;
+
     document.getElementById("customRadio").checked = true;
 
+
+
     customCardBox.classList.add("active");
+
     fixedCardBox.classList.remove("active");
+
+
 
     customTechnicalInput.focus();
 
+
 }
+
 
 
 
@@ -212,7 +218,6 @@ function calculate() {
     let franchiseValue = getNumber(franchiseInput.value);
 
     let customValue = getNumber(customTechnicalInput.value);
-
 
 
 
@@ -248,12 +253,14 @@ function calculate() {
 
 
 
+
 function copyResult() {
 
 
     navigator.clipboard.writeText(
         finalAmount.toString()
     );
+
 
 
     toastBox.classList.add("show");
@@ -275,6 +282,8 @@ function copyResult() {
 
 
 
+// F2 کپی مبلغ
+
 document.addEventListener("keydown", function(event) {
 
 
@@ -291,26 +300,95 @@ document.addEventListener("keydown", function(event) {
 
 
 });
-// شروع ورود اطلاعات با Enter
+
+
+
+
+
+
+
+
+// شروع صفحه با Enter
 document.addEventListener("keydown", function(e){
+
 
     if(e.key === "Enter"){
 
+
         const active = document.activeElement;
+
+
 
         if(
             active.tagName !== "INPUT" &&
             active.tagName !== "TEXTAREA"
         ){
 
+
             e.preventDefault();
 
-            // اولین فیلد ورودی شهرداری
-            $("firstFieldId").focus();
-            $("firstFieldId").select();
+
+            outsideInput.focus();
+
+            outsideInput.select();
+
 
         }
 
+
     }
+
+
+});
+
+
+
+
+
+
+
+
+// F4 پاک کردن فرم
+
+document.addEventListener("keydown", function(e){
+
+
+    if(e.key === "F4"){
+
+
+        e.preventDefault();
+
+
+
+        outsideInput.value = "";
+
+        franchiseInput.value = "";
+
+        customTechnicalInput.value = "";
+
+
+
+        resultBox.innerHTML = "0 ریال";
+
+
+
+        selectFixed();
+
+
+
+        setTimeout(()=>{
+
+
+            outsideInput.focus();
+
+            outsideInput.select();
+
+
+        },100);
+
+
+
+    }
+
 
 });
