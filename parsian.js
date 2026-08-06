@@ -29,7 +29,13 @@ enterFields.forEach((id, index) => {
                     $(next).select();
                 } else {
                     calculate();
-                    $("result").focus();
+
+                    setTimeout(() => {
+                        $("result").scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+                    }, 100);
                 }
             }
         });
