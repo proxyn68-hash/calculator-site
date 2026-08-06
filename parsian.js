@@ -58,3 +58,23 @@ document.addEventListener("keydown", function(e) {
         }
     }
 });
+// کلید میانبر F4 برای پاک کردن فرم و شروع محاسبه جدید
+document.addEventListener("keydown", function(e) {
+    if (e.key === "F4") {
+        e.preventDefault();
+
+        $("sitePercent").value = "";
+        $("outside").value = "";
+        $("herasi").value = "";
+        $("customTechnical").value = "";
+
+        $("result").textContent = "0 ریال";
+
+        // برگرداندن حق فنی به حالت ثابت
+        selectFixed();
+
+        setTimeout(() => {
+            $("sitePercent").focus();
+        }, 100);
+    }
+});
