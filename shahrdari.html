@@ -13,17 +13,19 @@
 
     <h1>ماشین حساب شهرداری</h1>
 
-
-    <!-- حق فنی -->
-
     <label class="section-title">حق فنی:</label>
 
     <div class="technical-options">
 
-
         <div class="technical-card active" id="fixedCard" onclick="selectFixed()">
 
-            <input type="radio" checked>
+            <input
+                id="fixedRadio"
+                name="technicalType"
+                type="radio"
+                checked
+                onclick="event.stopPropagation();selectFixed();"
+            >
 
             <div>
                 <strong>مبلغ ثابت</strong>
@@ -37,7 +39,12 @@
 
         <div class="technical-card" id="customCard" onclick="selectCustom()">
 
-            <input type="radio">
+            <input
+                id="customRadio"
+                name="technicalType"
+                type="radio"
+                onclick="event.stopPropagation();selectCustom();"
+            >
 
             <div>
                 <strong>مبلغ دلخواه</strong>
@@ -46,7 +53,6 @@
             </div>
 
         </div>
-
 
     </div>
 
@@ -60,10 +66,6 @@
         placeholder="مبلغ دلخواه حق فنی"
     >
 
-
-
-    <!-- خارج تعهد -->
-
     <label>خارج تعهد:</label>
 
     <input
@@ -72,10 +74,6 @@
         inputmode="numeric"
         placeholder="مبلغ خارج تعهد"
     >
-
-
-
-    <!-- فرانشیز -->
 
     <label>فرانشیز:</label>
 
@@ -86,57 +84,37 @@
         placeholder="مبلغ فرانشیز"
     >
 
-
-
     <button onclick="calculate()">
         محاسبه
     </button>
 
-
-
-
     <div class="result-box">
 
-        <h2>
-            مبلغ پرداختی بیمه:
-        </h2>
-
+        <h2>مبلغ پرداختی بیمه:</h2>
 
         <div id="result">
             0 ریال
         </div>
 
-
         <button onclick="copyResult()">
             کپی مبلغ
         </button>
 
-
     </div>
-
-
-
 
     <div class="shortcut-help">
         کلید میانبر: <strong>F2</strong> = کپی مبلغ پرداختی بیمه
     </div>
 
-
-
     <a class="back" href="index.html">
         بازگشت
     </a>
-
-
 
     <div id="toast">
         مبلغ کپی شد
     </div>
 
-
 </div>
-
-
 
 <script src="shahrdari.js"></script>
 
