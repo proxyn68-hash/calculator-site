@@ -1,196 +1,237 @@
 let technical = 727000;
 
+
 const $ = id => document.getElementById(id);
 
 
+
 function clean(v){
-    return String(v).replace(/,/g,'');
+
+return String(v).replace(/,/g,'');
+
 }
+
 
 
 ["outside","herasi","customTechnical"].forEach(id=>{
 
-    $(id).addEventListener("input",e=>{
 
-        let v = clean(e.target.value);
+$(id).addEventListener("input",e=>{
 
-        if(v)
-            e.target.value = Number(v).toLocaleString("en-US");
 
-    });
+let v=clean(e.target.value);
+
+
+if(v){
+
+e.target.value =
+Number(v).toLocaleString("en-US");
+
+}
+
 
 });
 
 
+});
+
+
+
+
 function num(id){
-    return Number(clean($(id).value)) || 0;
+
+return Number(clean($(id).value)) || 0;
+
 }
+
+
 
 
 
 function selectFixed(){
 
-    technical = 727000;
 
-    $("customTechnical").disabled = true;
+technical=727000;
 
-    $("fixedRadio").checked = true;
-    $("customRadio").checked = false;
 
-    fixedCard.classList.add("active");
-    customCard.classList.remove("active");
+$("customTechnical").disabled=true;
+
+
+$("fixedRadio").checked=true;
+
+$("customRadio").checked=false;
+
+
+fixedCard.classList.add("active");
+
+customCard.classList.remove("active");
+
 
 }
+
 
 
 
 function selectCustom(){
 
-    technical = 0;
 
-    $("customTechnical").disabled = false;
+technical=0;
 
-    $("fixedRadio").checked = false;
-    $("customRadio").checked = true;
 
-    customCard.classList.add("active");
-    fixedCard.classList.remove("active");
+$("customTechnical").disabled=false;
 
-    $("customTechnical").focus();
+
+$("fixedRadio").checked=false;
+
+$("customRadio").checked=true;
+
+
+
+customCard.classList.add("active");
+
+fixedCard.classList.remove("active");
+
+
+
+$("customTechnical").focus();
+
+
 
 }
+
+
+
 
 
 
 function calculate(){
 
-    if(!$("customTechnical").disabled)
-        technical = num("customTechnical");
 
 
-    let p = Number($("sitePercent").value) || 0;
+if(!$("customTechnical").disabled)
 
-    let out = num("outside");
-
-    let h = num("herasi");
+technical=num("customTechnical");
 
 
-    let res =
-    (out + technical) *
-    ((100-p)/100)
-    + h;
+
+let percent =
+Number($("sitePercent").value) || 0;
 
 
-    $("result").textContent =
-    Math.floor(res).toLocaleString("en-US")
-    +" ریال";
+
+let outside =
+num("outside");
+
+
+
+let herasi =
+num("herasi");
+
+
+
+let result =
+(outside + technical) *
+((100-percent)/100)
++ herasi;
+
+
+
+$("result").textContent =
+Math.floor(result).toLocaleString("en-US")
++" ریال";
+
+
 
 }
 
 
 
 
-// Enter بین فیلدها
 
-const enterFields = [
 
-    "customTechnical",
-    "sitePercent",
-    "outside",
-    "herasi"
+
+// حرکت با Enter
+
+const fields=[
+
+"customTechnical",
+
+"sitePercent",
+
+"outside",
+
+"herasi"
 
 ];
 
 
-enterFields.forEach((id,index)=>{
+
+fields.forEach((id,index)=>{
 
 
-    const field = $(id);
+let field=$(id);
 
 
-    if(field){
-
-        field.addEventListener("keydown",function(e){
+if(field){
 
 
-            if(e.key==="Enter"){
+field.addEventListener("keydown",e=>{
 
 
-                e.preventDefault();
+if(e.key==="Enter"){
 
 
-                const next = enterFields[index+1];
+e.preventDefault();
 
 
-                if(next){
 
-                    $(next).focus();
-                    $(next).select();
-
-                }
-
-                else{
+let next=fields[index+1];
 
 
-                    calculate();
+
+if(next){
 
 
-                    setTimeout(()=>{
+$(next).focus();
 
-                        $("result").scrollIntoView({
-
-                            behavior:"smooth",
-                            block:"center"
-
-                        });
+$(next).select();
 
 
-                    },100);
+}
+
+else{
 
 
-                }
+calculate();
 
 
-            }
+
+setTimeout(()=>{
 
 
-        });
+$("result").scrollIntoView({
+
+behavior:"smooth",
+
+block:"center"
+
+});
 
 
-    }
+},100);
+
+
+
+}
+
+
+}
 
 
 });
 
 
-
-
-// شروع با Enter روی اولین فیلد
-
-document.addEventListener("keydown",function(e){
-
-
-    if(e.key==="Enter"){
-
-
-        const active=document.activeElement;
-
-
-        if(
-            active.tagName!=="INPUT" &&
-            active.tagName!=="TEXTAREA"
-        ){
-
-            e.preventDefault();
-
-
-            $("sitePercent").focus();
-
-            $("sitePercent").select();
-
-        }
-
-    }
+}
 
 
 });
@@ -199,84 +240,178 @@ document.addEventListener("keydown",function(e){
 
 
 
-// F2 کپی مبلغ با Toast
-
-document.addEventListener("keydown",function(e){
-
-    if(e.key==="F2"){
-
-        e.preventDefault();
-
-        navigator.clipboard.writeText(
-            $("result").textContent
-        );
 
 
-        const toast = document.createElement("div");
+// شروع با Enter
 
-        toast.textContent = "مبلغ کپی شد";
-
-        toast.className = "toast-message";
-
-        document.body.appendChild(toast);
+document.addEventListener("keydown",e=>{
 
 
-        setTimeout(()=>{
-
-            toast.classList.add("show");
-
-        },10);
+if(e.key==="Enter"){
 
 
-        setTimeout(()=>{
-
-            toast.classList.remove("show");
-
-            setTimeout(()=>{
-                toast.remove();
-            },300);
-
-        },2000);
+let active=document.activeElement;
 
 
-    }
+
+if(
+active.tagName!=="INPUT" &&
+active.tagName!=="TEXTAREA"
+){
+
+
+e.preventDefault();
+
+
+$("sitePercent").focus();
+
+$("sitePercent").select();
+
+
+}
+
+
+}
+
+
+});
+
+
+
+
+
+
+
+// کپی مبلغ
+
+function copyResult(){
+
+
+navigator.clipboard.writeText(
+$("result").textContent
+);
+
+
+showToast("مبلغ کپی شد");
+
+
+}
+
+
+
+
+
+
+document.addEventListener("keydown",e=>{
+
+
+if(e.key==="F2"){
+
+
+e.preventDefault();
+
+
+copyResult();
+
+
+}
+
 
 });
 
 
 
-// F4 پاک کردن فرم
-
-document.addEventListener("keydown",function(e){
-
-
-    if(e.key==="F4"){
-
-
-        e.preventDefault();
-
-
-        $("sitePercent").value="";
-        $("outside").value="";
-        $("herasi").value="";
-        $("customTechnical").value="";
-
-
-        $("result").textContent="0 ریال";
-
-
-        selectFixed();
-
-
-        setTimeout(()=>{
-
-            $("sitePercent").focus();
-
-        },100);
 
 
 
-    }
+
+// پاک کردن فرم F4
+
+document.addEventListener("keydown",e=>{
+
+
+if(e.key==="F4"){
+
+
+e.preventDefault();
+
+
+
+$("sitePercent").value="";
+
+$("outside").value="";
+
+$("herasi").value="";
+
+$("customTechnical").value="";
+
+
+
+$("result").textContent="0 ریال";
+
+
+
+selectFixed();
+
+
+
+$("sitePercent").focus();
+
+
+
+}
 
 
 });
+
+
+
+
+
+
+
+function showToast(text){
+
+
+
+let toast=document.createElement("div");
+
+
+toast.className="toast-message";
+
+
+toast.innerText=text;
+
+
+
+document.body.appendChild(toast);
+
+
+
+setTimeout(()=>{
+
+toast.classList.add("show");
+
+},10);
+
+
+
+setTimeout(()=>{
+
+
+toast.classList.remove("show");
+
+
+setTimeout(()=>{
+
+toast.remove();
+
+},300);
+
+
+
+},2000);
+
+
+
+}
