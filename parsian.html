@@ -1,1 +1,85 @@
-<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><title>ماشین حساب پارسیان</title><link rel="stylesheet" href="style.css"></head><body><div class="container"><h1>ماشین حساب بیمه پارسیان</h1><label>حق فنی</label><div class="technical-options"><div class="technical-card active" id="fixedCard" onclick="selectFixed()"><input id="fixedRadio" type="radio" name="t" checked><div><strong>مبلغ ثابت</strong><br><span>727,000 ریال</span></div></div><div class="technical-card" id="customCard" onclick="selectCustom()"><input id="customRadio" type="radio" name="t"><div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div></div></div><input id="customTechnical" type="text" disabled><label>درصد فرانشیز سایت</label><input id="sitePercent" type="number"><label>خارج تعهد</label><input id="outside" type="text"><label>فرانشیز هراسی</label><input id="herasi" type="text"><button onclick="calculate()">محاسبه</button><div class="result-box"><h2>مبلغ پرداختی بیمه</h2><div id="result">0 ریال</div></div><a class="back" href="index.html">بازگشت</a></div><script src="parsian.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>ماشین حساب پارسیان</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ماشین حساب بیمه پارسیان</h1>
+
+<label>حق فنی</label>
+
+<div class="technical-options">
+
+<div class="technical-card active" id="fixedCard" onclick="selectFixed()">
+<input id="fixedRadio" type="radio" name="t" checked>
+<div>
+<strong>مبلغ ثابت</strong><br>
+<span>727,000 ریال</span>
+</div>
+</div>
+
+<div class="technical-card" id="customCard" onclick="selectCustom()">
+<input id="customRadio" type="radio" name="t">
+<div>
+<strong>مبلغ دلخواه</strong><br>
+<span>ورود مبلغ توسط کاربر</span>
+</div>
+</div>
+
+</div>
+
+
+<input id="customTechnical" type="text" disabled>
+
+
+<label>درصد فرانشیز سایت</label>
+<input id="sitePercent" type="number">
+
+
+<label>خارج تعهد</label>
+<input id="outside" type="text">
+
+
+<label>فرانشیز هراسی</label>
+<input id="herasi" type="text">
+
+
+<button onclick="calculate()">محاسبه</button>
+
+
+<div class="result-box">
+
+<h2>مبلغ پرداختی بیمه</h2>
+
+<div id="result">
+0 ریال
+</div>
+
+</div>
+
+
+<div class="shortcut-guide">
+
+<span>Enter : رفتن به فیلد بعدی</span>
+<span>F2 : کپی مبلغ</span>
+<span>F4 : پاک کردن فرم و شروع نسخه جدید</span>
+
+</div>
+
+
+<a class="back" href="index.html">بازگشت</a>
+
+
+</div>
+
+
+<script src="parsian.js"></script>
+
+</body>
+</html>
