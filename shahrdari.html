@@ -13,13 +13,13 @@
 
     <h1>ماشین حساب شهرداری</h1>
 
-    <label>خارج تعهد:</label>
-    <input id="outside" type="text" inputmode="numeric" placeholder="مبلغ خارج تعهد">
 
+    <!-- حق فنی -->
 
     <label class="section-title">حق فنی:</label>
 
     <div class="technical-options">
+
 
         <div class="technical-card active" id="fixedCard" onclick="selectFixed()">
 
@@ -34,6 +34,7 @@
         </div>
 
 
+
         <div class="technical-card" id="customCard" onclick="selectCustom()">
 
             <input type="radio">
@@ -45,6 +46,7 @@
             </div>
 
         </div>
+
 
     </div>
 
@@ -59,6 +61,21 @@
     >
 
 
+
+    <!-- خارج تعهد -->
+
+    <label>خارج تعهد:</label>
+
+    <input
+        id="outside"
+        type="text"
+        inputmode="numeric"
+        placeholder="مبلغ خارج تعهد"
+    >
+
+
+
+    <!-- فرانشیز -->
 
     <label>فرانشیز:</label>
 
@@ -77,11 +94,13 @@
 
 
 
+
     <div class="result-box">
 
         <h2>
             مبلغ پرداختی بیمه:
         </h2>
+
 
         <div id="result">
             0 ریال
@@ -92,7 +111,9 @@
             کپی مبلغ
         </button>
 
+
     </div>
+
 
 
 
@@ -114,6 +135,7 @@
 
 
 </div>
+
 
 
 <script src="shahrdari.js"></script>
