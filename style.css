@@ -406,7 +406,32 @@ button:hover {
     transition: 0.3s;
 
 }
+.shortcut-guide {
 
+    margin-top:20px;
+
+    padding:12px;
+
+    background:#f3f3f3;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    color:#414042;
+
+}
+
+
+.shortcut-guide span {
+
+    display:block;
+
+    margin:5px 0;
+
+}
 
 
 #toast.show {
