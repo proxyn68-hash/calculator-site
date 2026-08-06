@@ -199,32 +199,49 @@ document.addEventListener("keydown",function(e){
 
 
 
-// F2 کپی مبلغ
+// F2 کپی مبلغ با Toast
 
 document.addEventListener("keydown",function(e){
 
-
     if(e.key==="F2"){
 
-
         e.preventDefault();
-
 
         navigator.clipboard.writeText(
             $("result").textContent
         );
 
 
-        alert("مبلغ کپی شد");
+        const toast = document.createElement("div");
+
+        toast.textContent = "مبلغ کپی شد";
+
+        toast.className = "toast-message";
+
+        document.body.appendChild(toast);
+
+
+        setTimeout(()=>{
+
+            toast.classList.add("show");
+
+        },10);
+
+
+        setTimeout(()=>{
+
+            toast.classList.remove("show");
+
+            setTimeout(()=>{
+                toast.remove();
+            },300);
+
+        },2000);
 
 
     }
 
-
 });
-
-
-
 
 
 
