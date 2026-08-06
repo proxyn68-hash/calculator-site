@@ -126,6 +126,20 @@ inputList.forEach((input, index) => {
 
 
 
+            setTimeout(()=>{
+
+                resultBox.scrollIntoView({
+
+                    behavior:"smooth",
+
+                    block:"center"
+
+                });
+
+            },100);
+
+
+
         }
 
 
@@ -133,9 +147,6 @@ inputList.forEach((input, index) => {
 
 
 });
-
-
-
 
 
 
