@@ -41,3 +41,20 @@ enterFields.forEach((id, index) => {
         });
     }
 });
+// شروع کار با Enter روی اولین فیلد قابل ورود
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        const active = document.activeElement;
+
+        // اگر کاربر داخل فیلدها نیست
+        if (
+            active.tagName !== "INPUT" &&
+            active.tagName !== "TEXTAREA"
+        ) {
+            e.preventDefault();
+
+            $("sitePercent").focus();
+            $("sitePercent").select();
+        }
+    }
+});
