@@ -21,10 +21,11 @@ function cleanNumber(value) {
 
 
 
-// جداکننده هزارگان هنگام تایپ
+
 function formatNumberInput(input) {
 
     input.addEventListener("input", function () {
+
 
         let cursorPosition = this.selectionStart;
 
@@ -34,14 +35,18 @@ function formatNumberInput(input) {
         let value = cleanNumber(oldValue);
 
 
+
         if (value !== "" && !isNaN(value)) {
 
+
             let formatted = Number(value).toLocaleString("en-US");
+
 
             this.value = formatted;
 
 
             let diff = formatted.length - oldValue.length;
+
 
             cursorPosition += diff;
 
@@ -51,7 +56,9 @@ function formatNumberInput(input) {
                 cursorPosition
             );
 
+
         }
+
 
     });
 
@@ -68,13 +75,18 @@ formatNumberInput(customTechnicalInput);
 
 
 
-// حرکت با Enter
+
+// ترتیب جدید:
+// حق فنی → خارج تعهد → فرانشیز
 
 const inputList = [
+    customTechnicalInput,
     outsideInput,
-    franchiseInput,
-    customTechnicalInput
+    franchiseInput
 ];
+
+
+
 
 
 inputList.forEach((input, index) => {
@@ -89,8 +101,10 @@ inputList.forEach((input, index) => {
             event.preventDefault();
 
 
-            // حفظ نمایش جداکننده
+
             let value = cleanNumber(this.value);
+
+
 
             if (value !== "" && !isNaN(value)) {
 
@@ -100,7 +114,7 @@ inputList.forEach((input, index) => {
 
 
 
-            // رفتن به فیلد بعدی فعال
+
 
             for (let i = index + 1; i < inputList.length; i++) {
 
@@ -114,6 +128,7 @@ inputList.forEach((input, index) => {
 
 
                 }
+
 
             }
 
@@ -138,12 +153,9 @@ inputList.forEach((input, index) => {
 
 function getNumber(value) {
 
-    return Number(
-        cleanNumber(value)
-    ) || 0;
+    return Number(cleanNumber(value)) || 0;
 
 }
-
 
 
 
@@ -165,7 +177,6 @@ function selectFixed() {
 
 
 }
-
 
 
 
@@ -218,6 +229,7 @@ function calculate() {
 
 
 
+
     finalAmount = Math.floor(
 
         outsideValue * 0.7 +
@@ -228,12 +240,12 @@ function calculate() {
 
 
 
+
     resultBox.innerHTML =
         finalAmount.toLocaleString("en-US") + " ریال";
 
 
 }
-
 
 
 
@@ -252,6 +264,7 @@ function copyResult() {
     toastBox.classList.add("show");
 
 
+
     setTimeout(() => {
 
         toastBox.classList.remove("show");
@@ -266,8 +279,6 @@ function copyResult() {
 
 
 
-
-// میانبر F2
 
 document.addEventListener("keydown", function(event) {
 
