@@ -164,17 +164,16 @@ function getNumber(value) {
 
 function selectFixed() {
 
-
     technical = 727000;
 
-
     customTechnicalInput.disabled = true;
+    customTechnicalInput.value = "";
 
+    document.getElementById("fixedRadio").checked = true;
+    document.getElementById("customRadio").checked = false;
 
     fixedCardBox.classList.add("active");
-
     customCardBox.classList.remove("active");
-
 
 }
 
@@ -185,21 +184,17 @@ function selectFixed() {
 
 function selectCustom() {
 
-
     technical = 0;
-
 
     customTechnicalInput.disabled = false;
 
-
-    customTechnicalInput.focus();
-
-
+    document.getElementById("fixedRadio").checked = false;
+    document.getElementById("customRadio").checked = true;
 
     customCardBox.classList.add("active");
-
     fixedCardBox.classList.remove("active");
 
+    customTechnicalInput.focus();
 
 }
 
