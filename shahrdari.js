@@ -291,3 +291,26 @@ document.addEventListener("keydown", function(event) {
 
 
 });
+// شروع ورود اطلاعات با Enter
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "Enter"){
+
+        const active = document.activeElement;
+
+        if(
+            active.tagName !== "INPUT" &&
+            active.tagName !== "TEXTAREA"
+        ){
+
+            e.preventDefault();
+
+            // اولین فیلد ورودی شهرداری
+            $("firstFieldId").focus();
+            $("firstFieldId").select();
+
+        }
+
+    }
+
+});
