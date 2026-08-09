@@ -1,57 +1,211 @@
 <!DOCTYPE html>
+
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<title>ماشین حساب بیمه معلم</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>ماشین حساب بیمه معلم</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <div class="container">
+
+```
 <h1>ماشین حساب بیمه معلم</h1>
+
+<!-- سقف تعهد -->
 <label>سقف تعهد</label>
-<div class="technical-options">
+
 <div id="ceilingSection">
-<div class="technical-options">
-<div class="technical-card active" id="fixedCeilingCard" onclick="selectFixedCeiling()">
-<input id="fixedCeilingRadio" type="radio" name="ceilingType" checked>
-<div><strong>مبلغ ثابت</strong><br><span>30,000,000 ریال</span></div>
-</div>
-<div class="technical-card" id="customCeilingCard" onclick="selectCustomCeiling()">
-<input id="customCeilingRadio" type="radio" name="ceilingType" >
-<div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div>
-</div>
-</div>
-<input id="customCeiling" type="text" inputmode="numeric" disabled placeholder="مبلغ دلخواه سقف تعهد">
+
+    <div class="technical-options">
+
+        <div class="technical-card active"
+             id="fixedCeilingCard"
+             onclick="selectFixedCeiling()">
+
+            <input id="fixedCeilingRadio"
+                   type="radio"
+                   name="ceilingType"
+                   checked>
+
+            <div>
+                <strong>مبلغ ثابت</strong>
+                <br>
+                <span>30,000,000 ریال</span>
+            </div>
+
+        </div>
+
+
+        <div class="technical-card"
+             id="customCeilingCard"
+             onclick="selectCustomCeiling()">
+
+            <input id="customCeilingRadio"
+                   type="radio"
+                   name="ceilingType">
+
+            <div>
+                <strong>مبلغ دلخواه</strong>
+                <br>
+                <span>ورود مبلغ توسط کاربر</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <input id="customCeiling"
+           type="text"
+           disabled>
+
 </div>
 
-<label>نوع بیمه معلم</label>
+
+<!-- نوع بیمه -->
+<label>نوع بیمه</label>
+
 <div class="technical-options">
-<div class="technical-card active" id="staffCard" onclick="selectStaff()"><input id="staffRadio" type="radio" name="policyType" checked><div><strong>کارکنان معلم، هجرت، کشتیرانی</strong></div></div>
-<div class="technical-card" id="otherCard" onclick="selectOther()"><input id="otherRadio" type="radio" name="policyType"><div><strong>سایر</strong></div></div>
+
+    <div class="technical-card active"
+         id="staffCard"
+         onclick="selectStaff()">
+
+        <input id="staffRadio"
+               type="radio"
+               name="moallemType"
+               checked>
+
+        <div>
+            <strong>کارکنان معلم، هجرت، کشتیرانی</strong>
+        </div>
+
+    </div>
+
+
+    <div class="technical-card"
+         id="otherCard"
+         onclick="selectOther()">
+
+        <input id="otherRadio"
+               type="radio"
+               name="moallemType">
+
+        <div>
+            <strong>سایر</strong>
+        </div>
+
+    </div>
+
 </div>
+
+
+<!-- حق فنی -->
 <div id="technicalSection">
-<label>حق فنی</label>
-<div class="technical-options">
-<div class="technical-card active" id="fixedCard" onclick="selectFixed()"><input id="fixedRadio" type="radio" name="technical" checked><div><strong>مبلغ ثابت</strong><br><span>727,000 ریال</span></div></div>
-<div class="technical-card" id="customCard" onclick="selectCustom()"><input id="customRadio" type="radio" name="technical"><div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div></div>
+
+    <label>حق فنی</label>
+
+    <div class="technical-options">
+
+        <div class="technical-card active"
+             id="fixedCard"
+             onclick="selectFixed()">
+
+            <input id="fixedRadio"
+                   type="radio"
+                   name="technical"
+                   checked>
+
+            <div>
+                <strong>مبلغ ثابت</strong>
+                <br>
+                <span>727,000 ریال</span>
+            </div>
+
+        </div>
+
+
+        <div class="technical-card"
+             id="customCard"
+             onclick="selectCustom()">
+
+            <input id="customRadio"
+                   type="radio"
+                   name="technical">
+
+            <div>
+                <strong>مبلغ دلخواه</strong>
+                <br>
+                <span>ورود مبلغ توسط کاربر</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <input id="customTechnical"
+           type="text"
+           disabled>
+
 </div>
-<input id="customTechnical" type="text" inputmode="numeric" disabled placeholder="مبلغ دلخواه حق فنی">
-</div>
-<label>درصد فرانشیز سایت</label><input id="sitePercent" type="number">
-<label>خارج تعهد</label><input id="outside" type="text" inputmode="numeric">
-<label>فرانشیز هراسی</label><input id="herasi" type="text" inputmode="numeric">
-<button onclick="calculate()">محاسبه</button>
+
+
+<label>درصد فرانشیز سایت</label>
+<input id="sitePercent" type="number">
+
+
+<label>خارج تعهد</label>
+<input id="outside" type="text">
+
+
+<label>فرانشیز هراسی</label>
+<input id="herasi" type="text">
+
+
+<button onclick="calculate()">
+    محاسبه
+</button>
+
+
 <div class="result-box">
-<h2>مبلغ پرداختی بیمه</h2>
-<div id="result">0 ریال</div>
-<button onclick="copyResult()" class="copy-btn">کپی مبلغ</button>
+
+    <h2>مبلغ پرداختی بیمه</h2>
+
+    <div id="result">
+        0 ریال
+    </div>
+
+    <button onclick="copyResult()" class="copy-btn">
+        کپی مبلغ
+    </button>
+
 </div>
+
+
 <div class="shortcut-guide">
-<span>Enter : رفتن به فیلد بعدی</span>
-<span>F2 : کپی مبلغ</span>
-<span>F4 : پاک کردن فرم و شروع نسخه جدید</span>
+
+    <span>Enter : رفتن به فیلد بعدی</span>
+    <span>F2 : کپی مبلغ</span>
+    <span>F4 : پاک کردن فرم</span>
+
 </div>
-<a class="back" href="index.html">بازگشت</a>
+
+
+<a class="back" href="index.html">
+    بازگشت
+</a>
+```
+
 </div>
-<div id="toast" class="toast-message">مبلغ کپی شد</div>
-<script src="moallem.js"></script></body></html>
+
+<div id="toast" class="toast-message">
+    مبلغ کپی شد
+</div>
+
+<script src="moallem.js"></script>
+
+</body>
+</html>
