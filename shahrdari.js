@@ -112,6 +112,13 @@ function getFields() {
 }
 
 document.addEventListener("keydown", function(e) {
+    if (e.key === "F8") {
+        e.preventDefault();
+        window.location.href = "index.html";
+    }
+});
+
+document.addEventListener("keydown", function(e) {
     if (e.key !== "Enter") return;
     const active = document.activeElement;
     const fields = getFields();
