@@ -1,417 +1,78 @@
-let technical = 727000;
+let technical=727000, finalAmount=0;
+const sitePercentInput=document.getElementById("sitePercent"), outsideInput=document.getElementById("outside"), herasiInput=document.getElementById("herasi"), customTechnicalInput=document.getElementById("customTechnical");
+const resultBox=document.getElementById("result"), toastBox=document.getElementById("toast");
+const fixedCardBox=document.getElementById("fixedCard"), customCardBox=document.getElementById("customCard");
 
-
-const $ = id => document.getElementById(id);
-
-
-
-function clean(v){
-
-return String(v).replace(/,/g,'');
-
+function cleanNumber(value){ return String(value).replace(/,/g,''); }
+function getNumber(value){ return Number(cleanNumber(value)) || 0; }
+function formatNumberInput(input){
+    input.addEventListener("input",function(){
+        let cursorPosition=this.selectionStart, oldValue=this.value, value=cleanNumber(oldValue);
+        if(value!=="" && !isNaN(value)){
+            let formatted=Number(value).toLocaleString("en-US");
+            this.value=formatted;
+            cursorPosition += formatted.length-oldValue.length;
+            this.setSelectionRange(cursorPosition,cursorPosition);
+        }
+    });
 }
 
 
-
-["outside","herasi","customTechnical"].forEach(id=>{
-
-
-$(id).addEventListener("input",e=>{
-
-
-let v=clean(e.target.value);
-
-
-if(v){
-
-e.target.value =
-Number(v).toLocaleString("en-US");
-
+let specialty="general";
+let ceiling=20000000;
+const fixedCeilingDefaultGeneral=20000000;
+const fixedCeilingDefaultSpecialist=50000000;
+const customCeilingInput=document.getElementById("customCeiling");
+const fixedCeilingCard=document.getElementById("fixedCeilingCard");
+const customCeilingCard=document.getElementById("customCeilingCard");
+const generalCard=document.getElementById("generalSpecialtyCard");
+const specialistCard=document.getElementById("specialistSpecialtyCard");
+function updateFixedCeilingLabel(){
+    const span=fixedCeilingCard.querySelector("span");
+    span.textContent=Number(specialty==="general"?fixedCeilingDefaultGeneral:fixedCeilingDefaultSpecialist).toLocaleString("en-US")+" ریال";
+}
+function selectGeneral(){
+    specialty="general"; document.getElementById("generalSpecialtyRadio").checked=true; document.getElementById("specialtyTypeRadio").checked=false;
+    generalCard.classList.add("active"); specialistCard.classList.remove("active");
+    updateFixedCeilingLabel(); selectFixedCeiling();
+}
+function selectSpecialist(){
+    specialty="specialist"; document.getElementById("generalSpecialtyRadio").checked=false; document.getElementById("specialtyTypeRadio").checked=true;
+    specialistCard.classList.add("active"); generalCard.classList.remove("active");
+    updateFixedCeilingLabel(); selectFixedCeiling();
+}
+function selectFixedCeiling(){
+    ceiling=specialty==="general"?fixedCeilingDefaultGeneral:fixedCeilingDefaultSpecialist;
+    customCeilingInput.disabled=true; customCeilingInput.value="";
+    document.getElementById("fixedCeilingRadio").checked=true; document.getElementById("customCeilingRadio").checked=false;
+    fixedCeilingCard.classList.add("active"); customCeilingCard.classList.remove("active");
+}
+function selectCustomCeiling(){
+    ceiling=getNumber(customCeilingInput.value);
+    customCeilingInput.disabled=false;
+    document.getElementById("fixedCeilingRadio").checked=false; document.getElementById("customCeilingRadio").checked=true;
+    customCeilingCard.classList.add("active"); fixedCeilingCard.classList.remove("active");
+    customCeilingInput.focus();
 }
 
-
-});
-
-
-});
-
-
-
-
-function num(id){
-
-return Number(clean($(id).value)) || 0;
-
-}
-
-
-
-
-
-function selectFixed(){
-
-
-technical=727000;
-
-
-$("customTechnical").disabled=true;
-
-
-$("fixedRadio").checked=true;
-
-$("customRadio").checked=false;
-
-
-fixedCard.classList.add("active");
-
-customCard.classList.remove("active");
-
-
-}
-
-
-
-
-function selectCustom(){
-
-
-technical=0;
-
-
-$("customTechnical").disabled=false;
-
-
-$("fixedRadio").checked=false;
-
-$("customRadio").checked=true;
-
-
-
-customCard.classList.add("active");
-
-fixedCard.classList.remove("active");
-
-
-
-$("customTechnical").focus();
-
-
-
-}
-
-
-
-
-
-
+[customTechnicalInput,outsideInput,herasiInput,customCeilingInput].forEach(formatNumberInput);
+function selectFixed(){technical=727000;customTechnicalInput.disabled=true;customTechnicalInput.value="";fixedRadio.checked=true;customRadio.checked=false;fixedCardBox.classList.add("active");customCardBox.classList.remove("active");}
+function selectCustom(){technical=0;customTechnicalInput.disabled=false;fixedRadio.checked=false;customRadio.checked=true;customCardBox.classList.add("active");fixedCardBox.classList.remove("active");customTechnicalInput.focus();}
 function calculate(){
-
-
-
-if(!$("customTechnical").disabled)
-
-technical=num("customTechnical");
-
-
-
-let percent =
-Number($("sitePercent").value) || 0;
-
-
-
-let outside =
-num("outside");
-
-
-
-let herasi =
-num("herasi");
-
-
-
-let result =
-(outside + technical) *
-((100-percent)/100)
-+ herasi;
-
-
-
-$("result").textContent =
-Math.floor(result).toLocaleString("en-US")
-+" ریال";
-
-
-
+ if(!customTechnicalInput.disabled) technical=getNumber(customTechnicalInput.value);
+ if(!customCeilingInput.disabled) ceiling=getNumber(customCeilingInput.value);
+ let p=Number(sitePercentInput.value)||0,out=getNumber(outsideInput.value),h=getNumber(herasiInput.value);
+ let calculated=Math.floor((out+technical)*((100-p)/100)+h);
+ finalAmount=Math.min(calculated,ceiling); resultBox.textContent=finalAmount.toLocaleString("en-US")+" ریال";
 }
-
-
-
-
-
-
-
-// حرکت با Enter
-
-const fields=[
-
-"customTechnical",
-
-"sitePercent",
-
-"outside",
-
-"herasi"
-
-];
-
-
-
-fields.forEach((id,index)=>{
-
-
-let field=$(id);
-
-
-if(field){
-
-
-field.addEventListener("keydown",e=>{
-
-
-if(e.key==="Enter"){
-
-
-e.preventDefault();
-
-
-
-let next=fields[index+1];
-
-
-
-if(next){
-
-
-$(next).focus();
-
-$(next).select();
-
-
-}
-
-else{
-
-
-calculate();
-
-
-
-setTimeout(()=>{
-
-
-$("result").scrollIntoView({
-
-behavior:"smooth",
-
-block:"center"
-
-});
-
-
-},100);
-
-
-
-}
-
-
-}
-
-
-});
-
-
-}
-
-
-});
-
-
-
-
-
-
-
-// شروع با Enter
-
+const fields=[customCeilingInput,customTechnicalInput,sitePercentInput,outsideInput,herasiInput];
 document.addEventListener("keydown",e=>{
-
-
-if(e.key==="Enter"){
-
-
-let active=document.activeElement;
-
-
-
-if(
-active.tagName!=="INPUT" &&
-active.tagName!=="TEXTAREA"
-){
-
-
-e.preventDefault();
-
-
-$("sitePercent").focus();
-
-$("sitePercent").select();
-
-
-}
-
-
-}
-
-
+ if(e.key==="Enter"){
+  let i=fields.indexOf(document.activeElement);
+  if(i!==-1){e.preventDefault();if(fields[i+1]){fields[i+1].focus();fields[i+1].select();}else{calculate();setTimeout(()=>resultBox.scrollIntoView({behavior:"smooth",block:"center"}),100);}}
+  else if(!["INPUT","TEXTAREA"].includes(document.activeElement.tagName)){e.preventDefault();sitePercentInput.focus();sitePercentInput.select();}
+ }
+ if(e.key==="F2"){e.preventDefault();copyResult();}
+ if(e.key==="F4"){e.preventDefault();[customCeilingInput,customTechnicalInput,sitePercentInput,outsideInput,herasiInput].forEach(x=>x.value="");resultBox.textContent="0 ریال";selectGeneral();selectFixedCeiling();selectFixed();setTimeout(()=>sitePercentInput.focus(),100);}
 });
-
-
-
-
-
-
-
-// کپی مبلغ
-
-function copyResult(){
-
-
-navigator.clipboard.writeText(
-$("result").textContent
-);
-
-
-showToast("مبلغ کپی شد");
-
-
-}
-
-
-
-
-
-
-document.addEventListener("keydown",e=>{
-
-
-if(e.key==="F2"){
-
-
-e.preventDefault();
-
-
-copyResult();
-
-
-}
-
-
-});
-
-
-
-
-
-
-
-// پاک کردن فرم F4
-
-document.addEventListener("keydown",e=>{
-
-
-if(e.key==="F4"){
-
-
-e.preventDefault();
-
-
-
-$("sitePercent").value="";
-
-$("outside").value="";
-
-$("herasi").value="";
-
-$("customTechnical").value="";
-
-
-
-$("result").textContent="0 ریال";
-
-
-
-selectFixed();
-
-
-
-$("sitePercent").focus();
-
-
-
-}
-
-
-});
-
-
-
-
-
-
-
-function showToast(text){
-
-
-
-let toast=document.createElement("div");
-
-
-toast.className="toast-message";
-
-
-toast.innerText=text;
-
-
-
-document.body.appendChild(toast);
-
-
-
-setTimeout(()=>{
-
-toast.classList.add("show");
-
-},10);
-
-
-
-setTimeout(()=>{
-
-
-toast.classList.remove("show");
-
-
-setTimeout(()=>{
-
-toast.remove();
-
-},300);
-
-
-
-},2000);
-
-
-
-}
+function copyResult(){navigator.clipboard.writeText(finalAmount.toString());toastBox.classList.add("show");setTimeout(()=>toastBox.classList.remove("show"),1500);}

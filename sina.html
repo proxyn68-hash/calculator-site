@@ -1,219 +1,57 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <title>ماشین حساب بیمه سینا</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <div class="container">
-
 <h1>ماشین حساب بیمه سینا</h1>
-
+<label>سقف تعهد</label>
+<div class="technical-options">
+<div id="ceilingSection">
+<div class="technical-options">
+<div class="technical-card active" id="fixedCeilingCard" onclick="selectFixedCeiling()">
+<input id="fixedCeilingRadio" type="radio" name="ceilingType" checked>
+<div><strong>مبلغ ثابت</strong><br><span>50,000,000 ریال</span></div>
+</div>
+<div class="technical-card" id="customCeilingCard" onclick="selectCustomCeiling()">
+<input id="customCeilingRadio" type="radio" name="ceilingType" >
+<div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div>
+</div>
+</div>
+<input id="customCeiling" type="text" inputmode="numeric" disabled placeholder="مبلغ دلخواه سقف تعهد">
+</div>
 
 <label>نوع بیمه سینا</label>
-
 <div class="technical-options">
-
-
-<div class="technical-card active" id="subCard" onclick="selectSub()">
-
-<input id="subRadio" type="radio" name="sinaType" checked>
-
-<div>
-<strong>زیرمجموعه آستان قدس و وزارت نیرو قائم</strong>
+<div class="technical-card active" id="staffCard" onclick="selectStaff()"><input id="staffRadio" type="radio" name="policyType" checked><div><strong>زیرمجموعه آستان قدس و وزارت نیرو قائم</strong></div></div>
+<div class="technical-card" id="otherCard" onclick="selectOther()"><input id="otherRadio" type="radio" name="policyType"><div><strong>سایر</strong></div></div>
 </div>
-
-</div>
-
-
-
-<div class="technical-card" id="otherCard" onclick="selectOther()">
-
-<input id="otherRadio" type="radio" name="sinaType">
-
-<div>
-<strong>سایر</strong>
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
 <div id="technicalSection">
-
-
 <label>حق فنی</label>
-
-
 <div class="technical-options">
-
-
-<div class="technical-card active" id="fixedCard" onclick="selectFixed()">
-
-<input id="fixedRadio" type="radio" name="technical" checked>
-
-
-<div>
-
-<strong>مبلغ ثابت</strong>
-
-<br>
-
-<span>727,000 ریال</span>
-
+<div class="technical-card active" id="fixedCard" onclick="selectFixed()"><input id="fixedRadio" type="radio" name="technical" checked><div><strong>مبلغ ثابت</strong><br><span>727,000 ریال</span></div></div>
+<div class="technical-card" id="customCard" onclick="selectCustom()"><input id="customRadio" type="radio" name="technical"><div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div></div>
 </div>
-
-
+<input id="customTechnical" type="text" inputmode="numeric" disabled placeholder="مبلغ دلخواه حق فنی">
 </div>
-
-
-
-
-
-<div class="technical-card" id="customCard" onclick="selectCustom()">
-
-
-<input id="customRadio" type="radio" name="technical">
-
-
-<div>
-
-<strong>مبلغ دلخواه</strong>
-
-<br>
-
-<span>ورود مبلغ توسط کاربر</span>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<input id="customTechnical" type="text" disabled>
-
-
-</div>
-
-
-
-
-
-<label>درصد فرانشیز سایت</label>
-
-<input id="sitePercent" type="number">
-
-
-
-
-
-<label>خارج تعهد</label>
-
-<input id="outside" type="text">
-
-
-
-
-
-<label>فرانشیز هراسی</label>
-
-<input id="herasi" type="text">
-
-
-
-
-
-
-<button onclick="calculate()">
-
-محاسبه
-
-</button>
-
-
-
-
-
-
+<label>درصد فرانشیز سایت</label><input id="sitePercent" type="number">
+<label>خارج تعهد</label><input id="outside" type="text" inputmode="numeric">
+<label>فرانشیز هراسی</label><input id="herasi" type="text" inputmode="numeric">
+<button onclick="calculate()">محاسبه</button>
 <div class="result-box">
-
-
 <h2>مبلغ پرداختی بیمه</h2>
-
-
-<div id="result">
-
-0 ریال
-
+<div id="result">0 ریال</div>
+<button onclick="copyResult()" class="copy-btn">کپی مبلغ</button>
 </div>
-
-
-
-<button onclick="copyResult()" class="copy-btn">
-
-کپی مبلغ
-
-</button>
-
-
-</div>
-
-
-
-
-
-
 <div class="shortcut-guide">
-
-
 <span>Enter : رفتن به فیلد بعدی</span>
-
 <span>F2 : کپی مبلغ</span>
-
-<span>F4 : پاک کردن فرم</span>
-
-
+<span>F4 : پاک کردن فرم و شروع نسخه جدید</span>
 </div>
-
-
-
-
-
-<a class="back" href="index.html">
-
-بازگشت
-
-</a>
-
-
-
+<a class="back" href="index.html">بازگشت</a>
 </div>
-
-
-<div id="toast" class="toast-message">
-
-مبلغ کپی شد
-
-</div>
-
-
-
-<script src="sina.js"></script>
-
-
-</body>
-
-</html>
+<div id="toast" class="toast-message">مبلغ کپی شد</div>
+<script src="sina.js"></script></body></html>
