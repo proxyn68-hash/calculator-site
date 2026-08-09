@@ -1,60 +1,148 @@
-let technical=727000, finalAmount=0, isStaff=true;
-const sitePercentInput=document.getElementById("sitePercent"), outsideInput=document.getElementById("outside"), herasiInput=document.getElementById("herasi"), customTechnicalInput=document.getElementById("customTechnical");
-const resultBox=document.getElementById("result"), toastBox=document.getElementById("toast");
-const fixedCardBox=document.getElementById("fixedCard"), customCardBox=document.getElementById("customCard"), staffCardBox=document.getElementById("staffCard"), otherCardBox=document.getElementById("otherCard");
+let technical = 727000;
+let finalAmount = 0;
+let calculatedAmount = 0;
+let ceilingMode = "fixed";
+let isFirstType = true;
+const FIXED_LIMIT = 50000000;
 
-function cleanNumber(value){ return String(value).replace(/,/g,''); }
-function getNumber(value){ return Number(cleanNumber(value)) || 0; }
-function formatNumberInput(input){
-    input.addEventListener("input",function(){
-        let cursorPosition=this.selectionStart, oldValue=this.value, value=cleanNumber(oldValue);
-        if(value!=="" && !isNaN(value)){
-            let formatted=Number(value).toLocaleString("en-US");
-            this.value=formatted;
-            cursorPosition += formatted.length-oldValue.length;
-            this.setSelectionRange(cursorPosition,cursorPosition);
+const sitePercentInput = document.getElementById("sitePercent");
+const outsideInput = document.getElementById("outside");
+const herasiInput = document.getElementById("herasi");
+const customTechnicalInput = document.getElementById("customTechnical");
+const customCeilingInput = document.getElementById("customCeiling");
+const resultBox = document.getElementById("result");
+const toastBox = document.getElementById("toast");
+
+function cleanNumber(value) { return String(value ?? "").replace(/,/g, ""); }
+function getNumber(value) { return Number(cleanNumber(value)) || 0; }
+function formatNumberInput(input) {
+    if (!input) return;
+    input.addEventListener("input", function() {
+        let oldValue = this.value, cursorPosition = this.selectionStart || 0, value = cleanNumber(oldValue);
+        if (value !== "" && !isNaN(value)) {
+            let formatted = Number(value).toLocaleString("en-US");
+            this.value = formatted;
+            cursorPosition += formatted.length - oldValue.length;
+            this.setSelectionRange(cursorPosition, cursorPosition);
         }
     });
 }
+[customCeilingInput, customTechnicalInput, outsideInput, herasiInput].forEach(formatNumberInput);
 
-
-let ceiling=50000000;
-const customCeilingInput=document.getElementById("customCeiling");
-const fixedCeilingCard=document.getElementById("fixedCeilingCard");
-const customCeilingCard=document.getElementById("customCeilingCard");
-function selectFixedCeiling(){
-    ceiling=50000000; customCeilingInput.disabled=true; customCeilingInput.value="";
-    document.getElementById("fixedCeilingRadio").checked=true; document.getElementById("customCeilingRadio").checked=false;
-    fixedCeilingCard.classList.add("active"); customCeilingCard.classList.remove("active");
+function setType(first) {
+    isFirstType = first;
+    document.getElementById("subRadio").checked = first;
+    document.getElementById("otherRadio").checked = !first;
+    document.getElementById("subCard").classList.toggle("active", first);
+    document.getElementById("otherCard").classList.toggle("active", !first);
+    document.getElementById("technicalSection").style.display = first ? "block" : "none";
+    if (!first) { technical = 0; }
 }
-function selectCustomCeiling(){
-    ceiling=getNumber(customCeilingInput.value); customCeilingInput.disabled=false;
-    document.getElementById("fixedCeilingRadio").checked=false; document.getElementById("customCeilingRadio").checked=true;
-    customCeilingCard.classList.add("active"); fixedCeilingCard.classList.remove("active");
+function selectSub() { setType(true); }
+function selectOther() { setType(false); }
+
+function selectFixedCeiling() {
+    ceilingMode = "fixed";
+    customCeilingInput.disabled = true;
+    customCeilingInput.value = "";
+    document.getElementById("fixedCeilingRadio").checked = true;
+    document.getElementById("customCeilingRadio").checked = false;
+    document.getElementById("fixedCeilingCard").classList.add("active");
+    document.getElementById("customCeilingCard").classList.remove("active");
+}
+function selectCustomCeiling() {
+    ceilingMode = "custom";
+    customCeilingInput.disabled = false;
+    document.getElementById("fixedCeilingRadio").checked = false;
+    document.getElementById("customCeilingRadio").checked = true;
+    document.getElementById("customCeilingCard").classList.add("active");
+    document.getElementById("fixedCeilingCard").classList.remove("active");
     customCeilingInput.focus();
+    customCeilingInput.select();
+}
+function selectFixed() {
+    technical = 727000;
+    customTechnicalInput.disabled = true;
+    customTechnicalInput.value = "";
+    document.getElementById("fixedRadio").checked = true;
+    document.getElementById("customRadio").checked = false;
+    document.getElementById("fixedCard").classList.add("active");
+    document.getElementById("customCard").classList.remove("active");
+}
+function selectCustom() {
+    technical = 0;
+    customTechnicalInput.disabled = false;
+    document.getElementById("fixedRadio").checked = false;
+    document.getElementById("customRadio").checked = true;
+    document.getElementById("customCard").classList.add("active");
+    document.getElementById("fixedCard").classList.remove("active");
+    customTechnicalInput.focus();
+    customTechnicalInput.select();
 }
 
-[customCeilingInput,customTechnicalInput,outsideInput,herasiInput].forEach(formatNumberInput);
-function selectStaff(){isStaff=true;staffRadio.checked=true;otherRadio.checked=false;staffCardBox.classList.add("active");otherCardBox.classList.remove("active");document.getElementById("technicalSection").style.display="block";}
-function selectOther(){isStaff=false;staffRadio.checked=false;otherRadio.checked=true;otherCardBox.classList.add("active");staffCardBox.classList.remove("active");document.getElementById("technicalSection").style.display="none";technical=0;}
-function selectFixed(){technical=727000;customTechnicalInput.disabled=true;customTechnicalInput.value="";fixedRadio.checked=true;customRadio.checked=false;fixedCardBox.classList.add("active");customCardBox.classList.remove("active");}
-function selectCustom(){technical=0;customTechnicalInput.disabled=false;fixedRadio.checked=false;customRadio.checked=true;customCardBox.classList.add("active");fixedCardBox.classList.remove("active");customTechnicalInput.focus();}
-function calculate(){
- if(!customCeilingInput.disabled) ceiling=getNumber(customCeilingInput.value);
- let p=Number(sitePercentInput.value)||0,out=getNumber(outsideInput.value),h=getNumber(herasiInput.value),base=out*((100-p)/100);
- if(isStaff){if(!customTechnicalInput.disabled)technical=getNumber(customTechnicalInput.value);finalAmount=Math.floor(base+technical+h);}
- else finalAmount=Math.floor(base+h);
- finalAmount=Math.min(finalAmount,ceiling);
- resultBox.textContent=finalAmount.toLocaleString("en-US")+" ریال";
+function calculate() {
+    const percent = Number(sitePercentInput.value) || 0;
+    const outside = getNumber(outsideInput.value);
+    const herasi = getNumber(herasiInput.value);
+    const technicalValue = customTechnicalInput.disabled ? technical : getNumber(customTechnicalInput.value);
+    const base = outside * ((100 - percent) / 100);
+    calculatedAmount = Math.floor(isFirstType ? (base + technicalValue + herasi) : (base + herasi));
+    const selectedLimit = ceilingMode === "custom" ? getNumber(customCeilingInput.value) : FIXED_LIMIT;
+    finalAmount = Math.min(calculatedAmount, selectedLimit);
+    resultBox.textContent = finalAmount.toLocaleString("en-US") + " ریال";
 }
-function getFields(){if(isStaff&&!customTechnicalInput.disabled)return [customCeilingInput,customTechnicalInput,sitePercentInput,outsideInput,herasiInput];return [customCeilingInput,sitePercentInput,outsideInput,herasiInput];}
-document.addEventListener("keydown",e=>{
- if(e.key==="Enter"){
-  let fields=getFields(),i=fields.indexOf(document.activeElement);
-  if(i!==-1){e.preventDefault();if(fields[i+1]){fields[i+1].focus();fields[i+1].select();}else{calculate();setTimeout(()=>resultBox.scrollIntoView({behavior:"smooth",block:"center"}),100);}}
-  else if(!["INPUT","TEXTAREA"].includes(document.activeElement.tagName)){e.preventDefault();customCeilingInput.focus();customCeilingInput.select();}
- }
- if(e.key==="F2"){e.preventDefault();copyResult();}
- if(e.key==="F4"){e.preventDefault();[customCeilingInput,customTechnicalInput,sitePercentInput,outsideInput,herasiInput].forEach(x=>x.value="");resultBox.textContent="0 ریال";selectFixedCeiling();selectStaff();selectFixed();setTimeout(()=>customCeilingInput.focus(),100);}
+
+function getFields() {
+    const fields = [];
+    if (!customCeilingInput.disabled) fields.push(customCeilingInput);
+    if (isFirstType && !customTechnicalInput.disabled) fields.push(customTechnicalInput);
+    fields.push(sitePercentInput, outsideInput, herasiInput);
+    return fields;
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.key !== "Enter") return;
+    const active = document.activeElement;
+    const fields = getFields();
+    const index = fields.indexOf(active);
+    if (index !== -1) {
+        e.preventDefault();
+        if (fields[index + 1]) {
+            fields[index + 1].focus();
+            fields[index + 1].select();
+        } else {
+            calculate();
+            setTimeout(() => resultBox.scrollIntoView({behavior:"smooth", block:"center"}), 100);
+        }
+        return;
+    }
+    if (!active || (active.tagName !== "INPUT" && active.tagName !== "TEXTAREA")) {
+        e.preventDefault();
+        const first = fields.find(x => x && !x.disabled && x.offsetParent !== null);
+        if (first) { first.focus(); first.select(); }
+    }
 });
-function copyResult(){navigator.clipboard.writeText(finalAmount.toString());toastBox.classList.add("show");setTimeout(()=>toastBox.classList.remove("show"),1500);}
+
+function copyResult() {
+    navigator.clipboard.writeText(finalAmount.toString());
+    toastBox.classList.add("show");
+    setTimeout(() => toastBox.classList.remove("show"), 1500);
+}
+
+document.addEventListener("keydown", function(e) {
+    if (e.key === "F2") { e.preventDefault(); copyResult(); }
+    if (e.key === "F4") {
+        e.preventDefault();
+        customCeilingInput.value = "";
+        customTechnicalInput.value = "";
+        sitePercentInput.value = "";
+        outsideInput.value = "";
+        herasiInput.value = "";
+        resultBox.textContent = "0 ریال";
+        finalAmount = 0;
+        setType(true);
+        selectFixedCeiling();
+        selectFixed();
+        setTimeout(() => { sitePercentInput.focus(); sitePercentInput.select(); }, 100);
+    }
+});

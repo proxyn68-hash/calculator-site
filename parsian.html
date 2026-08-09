@@ -1,58 +1,83 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>ماشین حساب بیمه پارسیان</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب بیمه پارسیان</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-<h1>ماشین حساب بیمه پارسیان</h1>
-<label>سقف تعهد</label>
-<div class="technical-options">
-<div class="technical-card active" id="generalSpecialtyCard" onclick="selectGeneral()">
-<input id="generalSpecialtyRadio" type="radio" name="specialtyType" checked>
-<div><strong>عمومی</strong></div>
-</div><div class="technical-card" id="specialistSpecialtyCard" onclick="selectSpecialist()">
-<input id="specialtyTypeRadio" type="radio" name="specialtyType" >
-<div><strong>متخصص</strong></div>
-</div></div>
-<div id="ceilingSection">
-<label>سقف تعهد</label>
-<div class="technical-options">
-<div class="technical-card active" id="fixedCeilingCard" onclick="selectFixedCeiling()">
-<input id="fixedCeilingRadio" type="radio" name="ceilingType" checked>
-<div><strong>مبلغ ثابت</strong><br><span>20,000,000 ریال</span></div>
-</div>
-<div class="technical-card" id="customCeilingCard" onclick="selectCustomCeiling()">
-<input id="customCeilingRadio" type="radio" name="ceilingType" >
-<div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div>
-</div>
-</div>
-<input id="customCeiling" type="text" inputmode="numeric" disabled placeholder="مبلغ دلخواه سقف تعهد">
+    <h1>ماشین حساب بیمه پارسیان</h1>
+
+    <label>سقف تعهد</label>
+    <div id="ceilingSection">
+        <div class="technical-options">
+            <div class="technical-card active" id="fixedCeilingCard" onclick="selectFixedCeiling()">
+                <input id="fixedCeilingRadio" type="radio" name="ceilingType" checked>
+                <div><strong>مبلغ ثابت</strong><br><span id="fixedCeilingText">20,000,000 ریال</span></div>
+            </div>
+            <div class="technical-card" id="customCeilingCard" onclick="selectCustomCeiling()">
+                <input id="customCeilingRadio" type="radio" name="ceilingType">
+                <div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div>
+            </div>
+        </div>
+        <input id="customCeiling" type="text" inputmode="numeric" disabled>
+    </div>
+
+    <label>نوع تخصص پزشک</label>
+    <div class="technical-options">
+        <div class="technical-card active" id="generalCard" onclick="selectGeneral()">
+            <input id="generalRadio" type="radio" name="specialty" checked>
+            <div><strong>عمومی</strong></div>
+        </div>
+        <div class="technical-card" id="specialistCard" onclick="selectSpecialist()">
+            <input id="specialistRadio" type="radio" name="specialty">
+            <div><strong>متخصص</strong></div>
+        </div>
+    </div>
+
+    <div id="technicalSection">
+        <label>حق فنی</label>
+        <div class="technical-options">
+            <div class="technical-card active" id="fixedCard" onclick="selectFixed()">
+                <input id="fixedRadio" type="radio" name="technical" checked>
+                <div><strong>مبلغ ثابت</strong><br><span>727,000 ریال</span></div>
+            </div>
+            <div class="technical-card" id="customCard" onclick="selectCustom()">
+                <input id="customRadio" type="radio" name="technical">
+                <div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div>
+            </div>
+        </div>
+        <input id="customTechnical" type="text" inputmode="numeric" disabled>
+    </div>
+
+    <label>درصد فرانشیز سایت</label>
+    <input id="sitePercent" type="number" inputmode="decimal">
+
+    <label>خارج تعهد</label>
+    <input id="outside" type="text" inputmode="numeric">
+
+    <label>فرانشیز هراسی</label>
+    <input id="herasi" type="text" inputmode="numeric">
+
+    <button onclick="calculate()">محاسبه</button>
+    <div class="result-box">
+        <h2>مبلغ پرداختی بیمه</h2>
+        <div id="result">0 ریال</div>
+        <button onclick="copyResult()" class="copy-btn">کپی مبلغ</button>
+    </div>
+
+    <div class="shortcut-guide">
+        <span>Enter : رفتن به فیلد بعدی / محاسبه</span>
+        <span>F2 : کپی مبلغ</span>
+        <span>F4 : پاک کردن فرم</span>
+    </div>
+
+    <a class="back" href="index.html">بازگشت</a>
 </div>
 
-<label>حق فنی</label>
-<div class="technical-options">
-<div class="technical-card active" id="fixedCard" onclick="selectFixed()"><input id="fixedRadio" type="radio" name="technical" checked><div><strong>مبلغ ثابت</strong><br><span>727,000 ریال</span></div></div>
-<div class="technical-card" id="customCard" onclick="selectCustom()"><input id="customRadio" type="radio" name="technical"><div><strong>مبلغ دلخواه</strong><br><span>ورود مبلغ توسط کاربر</span></div></div>
-</div>
-<input id="customTechnical" type="text" inputmode="numeric" disabled placeholder="مبلغ دلخواه حق فنی">
-<label>درصد فرانشیز سایت</label><input id="sitePercent" type="number">
-<label>خارج تعهد</label><input id="outside" type="text" inputmode="numeric">
-<label>فرانشیز هراسی</label><input id="herasi" type="text" inputmode="numeric">
-<button onclick="calculate()">محاسبه</button>
-<div class="result-box">
-<h2>مبلغ پرداختی بیمه</h2>
-<div id="result">0 ریال</div>
-<button onclick="copyResult()" class="copy-btn">کپی مبلغ</button>
-</div>
-<div class="shortcut-guide">
-<span>Enter : رفتن به فیلد بعدی</span>
-<span>F2 : کپی مبلغ</span>
-<span>F4 : پاک کردن فرم و شروع نسخه جدید</span>
-</div>
-<a class="back" href="index.html">بازگشت</a>
-</div>
 <div id="toast" class="toast-message">مبلغ کپی شد</div>
-<script src="parsian.js"></script></body></html>
+<script src="parsian.js"></script>
+</body>
+</html>
