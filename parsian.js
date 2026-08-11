@@ -1,17 +1,21 @@
 let technical = 727000;
 let finalAmount = 0;
-
 let ceilingMode = "fixed";
 let specialty = "general";
 let selectedLimit = 20000000;
 
-// ===============================
+// ==============================
 // عناصر صفحه
-// ===============================
+// ==============================
 
-const sitePercentInput = document.getElementById("sitePercent");
-const outsideInput = document.getElementById("outside");
-const herasiInput = document.getElementById("herasi");
+const sitePercentInput =
+document.getElementById("sitePercent");
+
+const outsideInput =
+document.getElementById("outside");
+
+const herasiInput =
+document.getElementById("herasi");
 
 const customTechnicalInput =
 document.getElementById("customTechnical");
@@ -25,15 +29,14 @@ document.getElementById("result");
 const toastBox =
 document.getElementById("toast");
 
-// ===============================
+// ==============================
 // اعداد
-// ===============================
+// ==============================
 
 function cleanNumber(value) {
 
 ```
-return String(value ?? "")
-    .replace(/,/g, "");
+return String(value ?? "").replace(/,/g, "");
 ```
 
 }
@@ -46,15 +49,13 @@ return Number(cleanNumber(value)) || 0;
 
 }
 
-// ===============================
+// ==============================
 // جداکننده هزارگان
-// ===============================
+// ==============================
 
 function formatNumberInput(input) {
 
 ```
-if (!input) return;
-
 input.addEventListener("input", function () {
 
     let oldValue = this.value;
@@ -66,10 +67,7 @@ input.addEventListener("input", function () {
         cleanNumber(oldValue);
 
 
-    if (
-        value !== "" &&
-        !isNaN(value)
-    ) {
+    if (value !== "" && !isNaN(value)) {
 
         let formatted =
             Number(value).toLocaleString("en-US");
@@ -95,14 +93,18 @@ input.addEventListener("input", function () {
 
 }
 
-formatNumberInput(customCeilingInput);
-formatNumberInput(customTechnicalInput);
-formatNumberInput(outsideInput);
-formatNumberInput(herasiInput);
+[
+customCeilingInput,
+customTechnicalInput,
+sitePercentInput,
+outsideInput,
+herasiInput
 
-// ===============================
-// تخصص
-// ===============================
+].forEach(formatNumberInput);
+
+// ==============================
+// نوع تخصص
+// ==============================
 
 function selectGeneral() {
 
@@ -112,32 +114,22 @@ specialty = "general";
 selectedLimit = 20000000;
 
 
-document.getElementById(
-    "generalRadio"
-).checked = true;
+document.getElementById("generalRadio").checked = true;
+
+document.getElementById("specialistRadio").checked = false;
 
 
-document.getElementById(
-    "specialistRadio"
-).checked = false;
+document.getElementById("generalCard")
+    .classList.add("active");
 
-
-document.getElementById(
-    "generalCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "specialistCard"
-).classList.remove("active");
+document.getElementById("specialistCard")
+    .classList.remove("active");
 
 
 if (ceilingMode === "fixed") {
 
-    document.getElementById(
-        "fixedCeilingText"
-    ).textContent =
-        "20,000,000 ریال";
+    document.getElementById("fixedCeilingText")
+        .textContent = "20,000,000 ریال";
 
 }
 ```
@@ -152,41 +144,31 @@ specialty = "specialist";
 selectedLimit = 50000000;
 
 
-document.getElementById(
-    "generalRadio"
-).checked = false;
+document.getElementById("generalRadio").checked = false;
+
+document.getElementById("specialistRadio").checked = true;
 
 
-document.getElementById(
-    "specialistRadio"
-).checked = true;
+document.getElementById("specialistCard")
+    .classList.add("active");
 
-
-document.getElementById(
-    "specialistCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "generalCard"
-).classList.remove("active");
+document.getElementById("generalCard")
+    .classList.remove("active");
 
 
 if (ceilingMode === "fixed") {
 
-    document.getElementById(
-        "fixedCeilingText"
-    ).textContent =
-        "50,000,000 ریال";
+    document.getElementById("fixedCeilingText")
+        .textContent = "50,000,000 ریال";
 
 }
 ```
 
 }
 
-// ===============================
+// ==============================
 // سقف تعهد
-// ===============================
+// ==============================
 
 function selectFixedCeiling() {
 
@@ -205,29 +187,22 @@ customCeilingInput.disabled = true;
 customCeilingInput.value = "";
 
 
-document.getElementById(
-    "fixedCeilingRadio"
-).checked = true;
+document.getElementById("fixedCeilingRadio")
+    .checked = true;
+
+document.getElementById("customCeilingRadio")
+    .checked = false;
 
 
-document.getElementById(
-    "customCeilingRadio"
-).checked = false;
+document.getElementById("fixedCeilingCard")
+    .classList.add("active");
+
+document.getElementById("customCeilingCard")
+    .classList.remove("active");
 
 
-document.getElementById(
-    "fixedCeilingCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "customCeilingCard"
-).classList.remove("active");
-
-
-document.getElementById(
-    "fixedCeilingText"
-).textContent =
+document.getElementById("fixedCeilingText")
+    .textContent =
     selectedLimit.toLocaleString("en-US")
     + " ریال";
 ```
@@ -243,24 +218,18 @@ ceilingMode = "custom";
 customCeilingInput.disabled = false;
 
 
-document.getElementById(
-    "fixedCeilingRadio"
-).checked = false;
+document.getElementById("fixedCeilingRadio")
+    .checked = false;
+
+document.getElementById("customCeilingRadio")
+    .checked = true;
 
 
-document.getElementById(
-    "customCeilingRadio"
-).checked = true;
+document.getElementById("customCeilingCard")
+    .classList.add("active");
 
-
-document.getElementById(
-    "customCeilingCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "fixedCeilingCard"
-).classList.remove("active");
+document.getElementById("fixedCeilingCard")
+    .classList.remove("active");
 
 
 customCeilingInput.focus();
@@ -270,9 +239,9 @@ customCeilingInput.select();
 
 }
 
-// ===============================
+// ==============================
 // حق فنی
-// ===============================
+// ==============================
 
 function selectFixed() {
 
@@ -285,24 +254,18 @@ customTechnicalInput.disabled = true;
 customTechnicalInput.value = "";
 
 
-document.getElementById(
-    "fixedRadio"
-).checked = true;
+document.getElementById("fixedRadio")
+    .checked = true;
+
+document.getElementById("customRadio")
+    .checked = false;
 
 
-document.getElementById(
-    "customRadio"
-).checked = false;
+document.getElementById("fixedCard")
+    .classList.add("active");
 
-
-document.getElementById(
-    "fixedCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "customCard"
-).classList.remove("active");
+document.getElementById("customCard")
+    .classList.remove("active");
 ```
 
 }
@@ -316,24 +279,18 @@ technical = 0;
 customTechnicalInput.disabled = false;
 
 
-document.getElementById(
-    "fixedRadio"
-).checked = false;
+document.getElementById("fixedRadio")
+    .checked = false;
+
+document.getElementById("customRadio")
+    .checked = true;
 
 
-document.getElementById(
-    "customRadio"
-).checked = true;
+document.getElementById("customCard")
+    .classList.add("active");
 
-
-document.getElementById(
-    "customCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "fixedCard"
-).classList.remove("active");
+document.getElementById("fixedCard")
+    .classList.remove("active");
 
 
 customTechnicalInput.focus();
@@ -343,17 +300,13 @@ customTechnicalInput.select();
 
 }
 
-// ===============================
-// محاسبه
-// ===============================
+// ==============================
+// محاسبه پارسیان
+// ==============================
 
 function calculate() {
 
 ```
-const percent =
-    Number(sitePercentInput.value) || 0;
-
-
 const outside =
     getNumber(outsideInput.value);
 
@@ -362,25 +315,45 @@ const herasi =
     getNumber(herasiInput.value);
 
 
+const percent =
+    Number(
+        sitePercentInput.value
+    ) || 0;
+
+
 const technicalValue =
     customTechnicalInput.disabled
         ? technical
-        : getNumber(customTechnicalInput.value);
+        : getNumber(
+            customTechnicalInput.value
+        );
 
 
-// فرمول پارسیان
+// فرمول پارسیان:
+//
+// (خارج تعهد + حق فنی)
+// × ((100 - درصد فرانشیز سایت) / 100)
+// + فرانشیز هراسی
+
 const calculatedAmount =
     Math.floor(
+
         (outside + technicalValue) *
         ((100 - percent) / 100) +
         herasi
+
     );
 
 
 // سقف تعهد
+
 const limit =
     ceilingMode === "custom"
-        ? getNumber(customCeilingInput.value)
+
+        ? getNumber(
+            customCeilingInput.value
+        )
+
         : selectedLimit;
 
 
@@ -398,9 +371,9 @@ resultBox.textContent =
 
 }
 
-// ===============================
-// تعیین ترتیب فیلدها
-// ===============================
+// ==============================
+// ترتیب فیلدها
+// ==============================
 
 function getFields() {
 
@@ -408,32 +381,35 @@ function getFields() {
 const fields = [];
 
 
-// فقط وقتی سقف تعهد دلخواه است
-if (
-    customCeilingInput &&
-    !customCeilingInput.disabled
-) {
+// اگر سقف تعهد دلخواه باشد
 
-    fields.push(customCeilingInput);
+if (!customCeilingInput.disabled) {
+
+    fields.push(
+        customCeilingInput
+    );
 
 }
 
 
-// فقط وقتی حق فنی دلخواه است
-if (
-    customTechnicalInput &&
-    !customTechnicalInput.disabled
-) {
+// اگر حق فنی دلخواه باشد
 
-    fields.push(customTechnicalInput);
+if (!customTechnicalInput.disabled) {
+
+    fields.push(
+        customTechnicalInput
+    );
 
 }
 
 
 // ترتیب اصلی پارسیان
-fields.push(sitePercentInput);
-fields.push(outsideInput);
-fields.push(herasiInput);
+
+fields.push(
+    sitePercentInput,
+    outsideInput,
+    herasiInput
+);
 
 
 return fields;
@@ -441,45 +417,11 @@ return fields;
 
 }
 
-// ===============================
-// پیدا کردن اولین فیلد قابل ورود
-// ===============================
-
-function focusFirstField() {
-
-```
-const fields = getFields();
-
-
-for (const field of fields) {
-
-    if (
-        field &&
-        !field.disabled &&
-        field.offsetParent !== null
-    ) {
-
-        field.focus();
-
-        field.select();
-
-        return true;
-
-    }
-
-}
-
-
-return false;
-```
-
-}
-
-// ===============================
+// ==============================
 // Enter
-// ===============================
+// ==============================
 
-window.addEventListener(
+document.addEventListener(
 "keydown",
 function (event) {
 
@@ -489,59 +431,56 @@ function (event) {
     }
 
 
-    event.preventDefault();
-
-    event.stopPropagation();
-
-
-    const fields = getFields();
-
     const active =
         document.activeElement;
+
+
+    const fields =
+        getFields();
 
 
     const index =
         fields.indexOf(active);
 
 
-    // اگر الان روی یکی از فیلدها هستیم
+    // داخل یکی از فیلدها هستیم
+
     if (index !== -1) {
 
-
-        // فیلد بعدی وجود دارد
-        if (
-            index + 1 <
-            fields.length
-        ) {
-
-            const nextField =
-                fields[index + 1];
+        event.preventDefault();
 
 
-            nextField.focus();
+        // فیلد بعدی
 
-            nextField.select();
+        if (fields[index + 1]) {
 
-            return;
+            fields[index + 1].focus();
+
+            fields[index + 1].select();
 
         }
 
 
         // آخرین فیلد
-        calculate();
+
+        else {
+
+            calculate();
 
 
-        setTimeout(function () {
+            setTimeout(() => {
 
-            resultBox.scrollIntoView({
+                resultBox.scrollIntoView({
 
-                behavior: "smooth",
+                    behavior: "smooth",
 
-                block: "center"
+                    block: "center"
 
-            });
+                });
 
-        }, 100);
+            }, 100);
+
+        }
 
 
         return;
@@ -550,19 +489,46 @@ function (event) {
 
 
     // صفحه تازه باز شده
-    // یا فوکوس روی هیچ فیلدی نیست
+    // Enter باید وارد اولین فیلد شود
 
-    focusFirstField();
+    if (
+        !active ||
+        (
+            active.tagName !== "INPUT" &&
+            active.tagName !== "TEXTAREA"
+        )
+    ) {
 
-},
-true
+        event.preventDefault();
+
+
+        const first =
+            fields.find(
+                input =>
+                    input &&
+                    !input.disabled &&
+                    input.offsetParent !== null
+            );
+
+
+        if (first) {
+
+            first.focus();
+
+            first.select();
+
+        }
+
+    }
+
+}
 ```
 
 );
 
-// ===============================
-// F2 = کپی مبلغ
-// ===============================
+// ==============================
+// کپی مبلغ - F2
+// ==============================
 
 function copyResult() {
 
@@ -575,7 +541,7 @@ navigator.clipboard.writeText(
 toastBox.classList.add("show");
 
 
-setTimeout(function () {
+setTimeout(() => {
 
     toastBox.classList.remove("show");
 
@@ -584,18 +550,16 @@ setTimeout(function () {
 
 }
 
-// ===============================
-// F2 / F4 / F8
-// ===============================
+// ==============================
+// میانبرها
+// ==============================
 
-window.addEventListener(
+document.addEventListener(
 "keydown",
 function (event) {
 
 ```
-    // ---------------------------
-    // F2
-    // ---------------------------
+    // F2 = کپی مبلغ
 
     if (event.key === "F2") {
 
@@ -606,9 +570,7 @@ function (event) {
     }
 
 
-    // ---------------------------
-    // F4
-    // ---------------------------
+    // F4 = پاک کردن فرم
 
     if (event.key === "F4") {
 
@@ -640,7 +602,7 @@ function (event) {
         selectFixed();
 
 
-        setTimeout(function () {
+        setTimeout(() => {
 
             sitePercentInput.focus();
 
@@ -651,9 +613,7 @@ function (event) {
     }
 
 
-    // ---------------------------
-    // F8
-    // ---------------------------
+    // F8 = بازگشت به صفحه اصلی
 
     if (event.key === "F8") {
 
@@ -663,39 +623,6 @@ function (event) {
             "index.html";
 
     }
-
-}
-```
-
-);
-
-// ===============================
-// آماده‌سازی صفحه
-// ===============================
-
-window.addEventListener(
-"load",
-function () {
-
-```
-    // مطمئن شو حالت اولیه درست است
-
-    selectGeneral();
-
-    selectFixedCeiling();
-
-    selectFixed();
-
-
-    // فوکوس را روی خود صفحه قرار می‌دهیم
-    // تا اولین Enter حتماً توسط صفحه دریافت شود
-
-    document.body.setAttribute(
-        "tabindex",
-        "-1"
-    );
-
-    document.body.focus();
 
 }
 ```
