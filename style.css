@@ -490,3 +490,39 @@ h1 {
 
 
 }
+/* ==============================
+   چیدمان دو ستونه صفحه اصلی
+   ============================== */
+
+.home-container {
+    max-width: 760px;
+}
+
+.home-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.home-container h1 {
+    grid-column: 1 / -1;
+}
+
+.home-container .calculator-card {
+    margin-bottom: 0;
+}
+
+
+/* موبایل: تک ستونه */
+
+@media (max-width: 600px) {
+
+    .home-container {
+        grid-template-columns: 1fr;
+    }
+
+    .home-container h1 {
+        grid-column: 1;
+    }
+
+}
