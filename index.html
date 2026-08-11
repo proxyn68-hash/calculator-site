@@ -1,123 +1,153 @@
 <!DOCTYPE html>
+
 <html lang="fa" dir="rtl">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <title>
-        ماشین حساب بیمه
-    </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>
+    ماشین حساب بیمه
+</title>
+
+<link rel="stylesheet" href="style.css">
+```
 
 </head>
 
-
 <body>
-
 
 <div class="container home-container">
 
-
-    <h1>
-        ماشین حساب بیمه
-    </h1>
-
-
+```
+<h1>
+    ماشین حساب بیمه
+</h1>
 
 
-    <div class="calculator-card" onclick="location.href='shahrdari.html'">
+<div class="calculator-card"
+     onclick="location.href='shahrdari.html'">
 
-        <h2>
-            بیمه شهرداری
-        </h2>
+    <h2>
+        بیمه شهرداری
+        <span class="shortcut-key">1</span>
+    </h2>
 
-        <p>
-            محاسبه مبلغ پرداختی بیمه شهرداری
-        </p>
-
-    </div>
-
-
-
-
-
-
-    <div class="calculator-card" onclick="location.href='parsian.html'">
-
-        <h2>
-            بیمه پارسیان
-        </h2>
-
-        <p>
-            محاسبه مبلغ پرداختی بیمه پارسیان
-        </p>
-
-    </div>
-
-
-
-
-
-
-
-    <div class="calculator-card" onclick="location.href='sina.html'">
-
-        <h2>
-            بیمه سینا
-        </h2>
-
-        <p>
-            محاسبه مبلغ پرداختی بیمه سینا
-        </p>
-
-    </div>
-
-
-
-
-
-
-
-    <div class="calculator-card" onclick="location.href='moallem.html'">
-
-        <h2>
-            بیمه معلم
-        </h2>
-
-        <p>
-            محاسبه مبلغ پرداختی بیمه معلم
-        </p>
-
-    </div>
-
-
-
-
-
-
-
-    <div class="calculator-card" onclick="location.href='tejaratno.html'">
-
-        <h2>
-            بیمه تجارت نو
-        </h2>
-
-        <p>
-            محاسبه مبلغ پرداختی بیمه تجارت نو
-        </p>
-
-    </div>
-
-
-
-
+    <p>
+        محاسبه مبلغ پرداختی بیمه شهرداری
+    </p>
 
 </div>
 
 
-</body>
+<div class="calculator-card"
+     onclick="location.href='parsian.html'">
 
+    <h2>
+        بیمه پارسیان
+        <span class="shortcut-key">2</span>
+    </h2>
+
+    <p>
+        محاسبه مبلغ پرداختی بیمه پارسیان
+    </p>
+
+</div>
+
+
+<div class="calculator-card"
+     onclick="location.href='sina.html'">
+
+    <h2>
+        بیمه سینا
+        <span class="shortcut-key">3</span>
+    </h2>
+
+    <p>
+        محاسبه مبلغ پرداختی بیمه سینا
+    </p>
+
+</div>
+
+
+<div class="calculator-card"
+     onclick="location.href='moallem.html'">
+
+    <h2>
+        بیمه معلم
+        <span class="shortcut-key">4</span>
+    </h2>
+
+    <p>
+        محاسبه مبلغ پرداختی بیمه معلم
+    </p>
+
+</div>
+
+
+<div class="calculator-card"
+     onclick="location.href='tejaratno.html'">
+
+    <h2>
+        بیمه تجارت نو
+        <span class="shortcut-key">5</span>
+    </h2>
+
+    <p>
+        محاسبه مبلغ پرداختی بیمه تجارت نو
+    </p>
+
+</div>
+```
+
+</div>
+
+<script>
+
+document.addEventListener("keydown", function (event) {
+
+    // فقط کلیدهای عددی بالای کیبورد
+    // و فقط در صفحه اصلی
+
+    if (
+        event.target.tagName === "INPUT" ||
+        event.target.tagName === "TEXTAREA"
+    ) {
+        return;
+    }
+
+
+    switch (event.key) {
+
+        case "1":
+            window.location.href = "shahrdari.html";
+            break;
+
+        case "2":
+            window.location.href = "parsian.html";
+            break;
+
+        case "3":
+            window.location.href = "sina.html";
+            break;
+
+        case "4":
+            window.location.href = "moallem.html";
+            break;
+
+        case "5":
+            window.location.href = "tejaratno.html";
+            break;
+
+    }
+
+});
+
+</script>
+
+</body>
 
 </html>
