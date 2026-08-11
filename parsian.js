@@ -377,6 +377,7 @@ function getFields() {
 const fields = [];
 
 
+// اگر سقف تعهد دلخواه باشد
 if (!customCeilingInput.disabled) {
 
     fields.push(
@@ -386,6 +387,7 @@ if (!customCeilingInput.disabled) {
 }
 
 
+// اگر حق فنی دلخواه باشد
 if (!customTechnicalInput.disabled) {
 
     fields.push(
@@ -395,6 +397,7 @@ if (!customTechnicalInput.disabled) {
 }
 
 
+// فیلدهای اصلی
 fields.push(
     sitePercentInput,
     outsideInput,
@@ -407,6 +410,8 @@ return fields;
 
 }
 
+// مدیریت Enter
+
 document.addEventListener(
 "keydown",
 function (event) {
@@ -415,6 +420,9 @@ function (event) {
     if (event.key !== "Enter") {
         return;
     }
+
+
+    event.preventDefault();
 
 
     const active =
@@ -430,10 +438,12 @@ function (event) {
 
 
 
+    // اگر کاربر داخل یکی از فیلدها باشد
+
     if (index !== -1) {
 
-        event.preventDefault();
 
+        // رفتن به فیلد بعدی
 
         if (fields[index + 1]) {
 
@@ -443,6 +453,9 @@ function (event) {
 
         }
 
+
+        // اگر آخرین فیلد بود
+
         else {
 
             calculate();
@@ -451,8 +464,11 @@ function (event) {
             setTimeout(() => {
 
                 resultBox.scrollIntoView({
+
                     behavior: "smooth",
+
                     block: "center"
+
                 });
 
             }, 100);
@@ -466,33 +482,27 @@ function (event) {
 
 
 
-    if (
-        !active ||
-        (
-            active.tagName !== "INPUT" &&
-            active.tagName !== "TEXTAREA"
-        )
-    ) {
+    // اگر صفحه تازه باز شده باشد
+    // یا فوکوس روی هیچ فیلدی نباشد
 
-        event.preventDefault();
+    const firstField =
+        fields.find(function (input) {
 
-
-        const first =
-            fields.find(
-                input =>
-                    input &&
-                    !input.disabled &&
-                    input.offsetParent !== null
+            return (
+                input &&
+                !input.disabled &&
+                input.offsetParent !== null
             );
 
+        });
 
-        if (first) {
 
-            first.focus();
 
-            first.select();
+    if (firstField) {
 
-        }
+        firstField.focus();
+
+        firstField.select();
 
     }
 
@@ -500,6 +510,8 @@ function (event) {
 ```
 
 );
+
+// F2 = کپی مبلغ
 
 function copyResult() {
 
@@ -520,6 +532,8 @@ setTimeout(() => {
 ```
 
 }
+
+// F2 / F4 / F8
 
 document.addEventListener(
 "keydown",
@@ -563,6 +577,8 @@ function (event) {
         finalAmount = 0;
 
 
+        // برگرداندن انتخاب‌ها به حالت اولیه
+
         selectGeneral();
 
         selectFixedCeiling();
@@ -570,6 +586,8 @@ function (event) {
         selectFixed();
 
 
+
+        // آماده ورود مجدد اطلاعات
 
         setTimeout(() => {
 
