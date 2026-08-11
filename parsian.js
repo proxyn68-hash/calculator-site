@@ -1,210 +1,103 @@
 let technical = 727000;
 let finalAmount = 0;
-
 let ceilingMode = "fixed";
 let specialty = "general";
-
 let selectedLimit = 20000000;
 
-// ==============================
-// عناصر صفحه
-// ==============================
-
-const sitePercentInput =
-document.getElementById("sitePercent");
-
-const outsideInput =
-document.getElementById("outside");
-
-const herasiInput =
-document.getElementById("herasi");
-
-const customTechnicalInput =
-document.getElementById("customTechnical");
-
-const customCeilingInput =
-document.getElementById("customCeiling");
-
-const resultBox =
-document.getElementById("result");
-
-const toastBox =
-document.getElementById("toast");
-
-// ==============================
-// اعداد
-// ==============================
+const sitePercentInput = document.getElementById("sitePercent");
+const outsideInput = document.getElementById("outside");
+const herasiInput = document.getElementById("herasi");
+const customTechnicalInput = document.getElementById("customTechnical");
+const customCeilingInput = document.getElementById("customCeiling");
+const resultBox = document.getElementById("result");
+const toastBox = document.getElementById("toast");
 
 function cleanNumber(value) {
-
-```
-return String(value ?? "").replace(/,/g, "");
-```
-
+    return String(value ?? "").replace(/,/g, "");
 }
 
 function getNumber(value) {
-
-```
-return Number(cleanNumber(value)) || 0;
-```
-
+    return Number(cleanNumber(value)) || 0;
 }
-
-// ==============================
-// جداکننده هزارگان
-// ==============================
 
 function formatNumberInput(input) {
+    if (!input) return;
 
-```
-if (!input) return;
+    input.addEventListener("input", function () {
+        let oldValue = this.value;
+        let cursorPosition = this.selectionStart || 0;
+        let value = cleanNumber(oldValue);
 
+        if (value !== "" && !isNaN(value)) {
+            let formatted = Number(value).toLocaleString("en-US");
 
-input.addEventListener("input", function () {
+            this.value = formatted;
 
-    let cursorPosition =
-        this.selectionStart || 0;
+            cursorPosition += formatted.length - oldValue.length;
 
-    let oldValue =
-        this.value;
-
-    let value =
-        cleanNumber(oldValue);
-
-
-    if (value !== "" && !isNaN(value)) {
-
-        let formatted =
-            Number(value).toLocaleString("en-US");
-
-
-        this.value =
-            formatted;
-
-
-        let diff =
-            formatted.length -
-            oldValue.length;
-
-
-        cursorPosition += diff;
-
-
-        this.setSelectionRange(
-            cursorPosition,
-            cursorPosition
-        );
-
-    }
-
-});
-```
-
+            this.setSelectionRange(
+                cursorPosition,
+                cursorPosition
+            );
+        }
+    });
 }
 
-formatNumberInput(
-customCeilingInput
-);
+formatNumberInput(customCeilingInput);
+formatNumberInput(customTechnicalInput);
+formatNumberInput(outsideInput);
+formatNumberInput(herasiInput);
 
-formatNumberInput(
-customTechnicalInput
-);
-
-formatNumberInput(
-outsideInput
-);
-
-formatNumberInput(
-herasiInput
-);
-
-// درصد فرانشیز جداکننده هزارگان نمی‌خواهد
-// بنابراین عمداً به آن formatNumberInput نمی‌دهیم.
 
 // ==============================
-// انتخاب تخصص
+// نوع تخصص
 // ==============================
 
 function selectGeneral() {
 
-```
-specialty = "general";
+    specialty = "general";
+    selectedLimit = 20000000;
 
-selectedLimit = 20000000;
+    document.getElementById("generalRadio").checked = true;
+    document.getElementById("specialistRadio").checked = false;
 
+    document.getElementById("generalCard")
+        .classList.add("active");
 
-document.getElementById(
-    "generalRadio"
-).checked = true;
+    document.getElementById("specialistCard")
+        .classList.remove("active");
 
+    if (ceilingMode === "fixed") {
 
-document.getElementById(
-    "specialistRadio"
-).checked = false;
+        document.getElementById("fixedCeilingText")
+            .textContent = "20,000,000 ریال";
 
-
-document.getElementById(
-    "generalCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "specialistCard"
-).classList.remove("active");
-
-
-if (ceilingMode === "fixed") {
-
-    document.getElementById(
-        "fixedCeilingText"
-    ).textContent =
-        "20,000,000 ریال";
-
+    }
 }
-```
 
-}
 
 function selectSpecialist() {
 
-```
-specialty = "specialist";
+    specialty = "specialist";
+    selectedLimit = 50000000;
 
-selectedLimit = 50000000;
+    document.getElementById("generalRadio").checked = false;
+    document.getElementById("specialistRadio").checked = true;
 
+    document.getElementById("specialistCard")
+        .classList.add("active");
 
-document.getElementById(
-    "generalRadio"
-).checked = false;
+    document.getElementById("generalCard")
+        .classList.remove("active");
 
+    if (ceilingMode === "fixed") {
 
-document.getElementById(
-    "specialistRadio"
-).checked = true;
+        document.getElementById("fixedCeilingText")
+            .textContent = "50,000,000 ریال";
 
-
-document.getElementById(
-    "specialistCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "generalCard"
-).classList.remove("active");
-
-
-if (ceilingMode === "fixed") {
-
-    document.getElementById(
-        "fixedCeilingText"
-    ).textContent =
-        "50,000,000 ریال";
-
+    }
 }
-```
 
-}
 
 // ==============================
 // سقف تعهد
@@ -212,90 +105,52 @@ if (ceilingMode === "fixed") {
 
 function selectFixedCeiling() {
 
-```
-ceilingMode = "fixed";
+    ceilingMode = "fixed";
 
+    if (specialty === "specialist") {
+        selectedLimit = 50000000;
+    } else {
+        selectedLimit = 20000000;
+    }
 
-if (specialty === "specialist") {
+    customCeilingInput.disabled = true;
+    customCeilingInput.value = "";
 
-    selectedLimit = 50000000;
+    document.getElementById("fixedCeilingRadio").checked = true;
+    document.getElementById("customCeilingRadio").checked = false;
 
-} else {
+    document.getElementById("fixedCeilingCard")
+        .classList.add("active");
 
-    selectedLimit = 20000000;
+    document.getElementById("customCeilingCard")
+        .classList.remove("active");
 
+    document.getElementById("fixedCeilingText")
+        .textContent =
+        selectedLimit.toLocaleString("en-US") +
+        " ریال";
 }
 
-
-customCeilingInput.disabled = true;
-
-customCeilingInput.value = "";
-
-
-document.getElementById(
-    "fixedCeilingRadio"
-).checked = true;
-
-
-document.getElementById(
-    "customCeilingRadio"
-).checked = false;
-
-
-document.getElementById(
-    "fixedCeilingCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "customCeilingCard"
-).classList.remove("active");
-
-
-document.getElementById(
-    "fixedCeilingText"
-).textContent =
-    selectedLimit.toLocaleString("en-US")
-    + " ریال";
-```
-
-}
 
 function selectCustomCeiling() {
 
-```
-ceilingMode = "custom";
+    ceilingMode = "custom";
 
+    customCeilingInput.disabled = false;
 
-customCeilingInput.disabled = false;
+    document.getElementById("fixedCeilingRadio").checked = false;
+    document.getElementById("customCeilingRadio").checked = true;
 
+    document.getElementById("customCeilingCard")
+        .classList.add("active");
 
-document.getElementById(
-    "fixedCeilingRadio"
-).checked = false;
+    document.getElementById("fixedCeilingCard")
+        .classList.remove("active");
 
-
-document.getElementById(
-    "customCeilingRadio"
-).checked = true;
-
-
-document.getElementById(
-    "customCeilingCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "fixedCeilingCard"
-).classList.remove("active");
-
-
-customCeilingInput.focus();
-
-customCeilingInput.select();
-```
-
+    customCeilingInput.focus();
+    customCeilingInput.select();
 }
+
 
 // ==============================
 // حق فنی
@@ -303,72 +158,41 @@ customCeilingInput.select();
 
 function selectFixed() {
 
-```
-technical = 727000;
+    technical = 727000;
 
+    customTechnicalInput.disabled = true;
+    customTechnicalInput.value = "";
 
-customTechnicalInput.disabled = true;
+    document.getElementById("fixedRadio").checked = true;
+    document.getElementById("customRadio").checked = false;
 
-customTechnicalInput.value = "";
+    document.getElementById("fixedCard")
+        .classList.add("active");
 
-
-document.getElementById(
-    "fixedRadio"
-).checked = true;
-
-
-document.getElementById(
-    "customRadio"
-).checked = false;
-
-
-document.getElementById(
-    "fixedCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "customCard"
-).classList.remove("active");
-```
-
+    document.getElementById("customCard")
+        .classList.remove("active");
 }
+
 
 function selectCustom() {
 
-```
-technical = 0;
+    technical = 0;
 
+    customTechnicalInput.disabled = false;
 
-customTechnicalInput.disabled = false;
+    document.getElementById("fixedRadio").checked = false;
+    document.getElementById("customRadio").checked = true;
 
+    document.getElementById("customCard")
+        .classList.add("active");
 
-document.getElementById(
-    "fixedRadio"
-).checked = false;
+    document.getElementById("fixedCard")
+        .classList.remove("active");
 
-
-document.getElementById(
-    "customRadio"
-).checked = true;
-
-
-document.getElementById(
-    "customCard"
-).classList.add("active");
-
-
-document.getElementById(
-    "fixedCard"
-).classList.remove("active");
-
-
-customTechnicalInput.focus();
-
-customTechnicalInput.select();
-```
-
+    customTechnicalInput.focus();
+    customTechnicalInput.select();
 }
+
 
 // ==============================
 // محاسبه پارسیان
@@ -376,96 +200,56 @@ customTechnicalInput.select();
 
 function calculate() {
 
-```
-const outsideValue =
-    getNumber(
-        outsideInput.value
-    );
+    const outsideValue =
+        getNumber(outsideInput.value);
+
+    const herasiValue =
+        getNumber(herasiInput.value);
+
+    const sitePercent =
+        Number(cleanNumber(sitePercentInput.value)) || 0;
+
+    const technicalValue =
+        customTechnicalInput.disabled
+            ? technical
+            : getNumber(customTechnicalInput.value);
 
 
-const franchiseValue =
-    getNumber(
-        herasiInput.value
-    );
-
-
-const sitePercent =
-    Number(
-        sitePercentInput.value
-    ) || 0;
-
-
-const customValue =
-    getNumber(
-        customTechnicalInput.value
-    );
-
-
-if (!customTechnicalInput.disabled) {
-
-    technical = customValue;
-
-}
-
-
-/*
-   فرمول پارسیان:
-
-   (خارج تعهد + حق فنی)
-   × ((100 - درصد فرانشیز سایت) / 100)
-   + فرانشیز هراسی
-*/
-
-
-const calculatedAmount =
-    Math.floor(
-
-        (outsideValue + technical) *
-        ((100 - sitePercent) / 100) +
-        franchiseValue
-
-    );
-
-
-// ==========================
-// سقف تعهد
-// ==========================
-
-let limit;
-
-
-if (ceilingMode === "custom") {
-
-    limit =
-        getNumber(
-            customCeilingInput.value
+    const calculatedAmount =
+        Math.floor(
+            (outsideValue + technicalValue) *
+            ((100 - sitePercent) / 100) +
+            herasiValue
         );
 
-} else {
 
-    limit =
-        selectedLimit;
+    let limit;
 
+    if (ceilingMode === "custom") {
+
+        limit =
+            getNumber(customCeilingInput.value);
+
+    } else {
+
+        limit =
+            selectedLimit;
+
+    }
+
+
+    finalAmount =
+        Math.min(
+            calculatedAmount,
+            limit
+        );
+
+
+    resultBox.textContent =
+        finalAmount.toLocaleString("en-US") +
+        " ریال";
 }
 
-
-// ==========================
-// اعمال سقف
-// ==========================
-
-finalAmount =
-    Math.min(
-        calculatedAmount,
-        limit
-    );
-
-
-resultBox.innerHTML =
-    finalAmount.toLocaleString("en-US")
-    + " ریال";
-```
-
-}
 
 // ==============================
 // ترتیب فیلدها
@@ -473,130 +257,88 @@ resultBox.innerHTML =
 
 function getFields() {
 
-```
-const fields = [];
+    const fields = [];
+
+    if (
+        customCeilingInput &&
+        !customCeilingInput.disabled
+    ) {
+
+        fields.push(customCeilingInput);
+
+    }
 
 
-// سقف تعهد دلخواه
+    if (
+        customTechnicalInput &&
+        !customTechnicalInput.disabled
+    ) {
 
-if (
-    customCeilingInput &&
-    !customCeilingInput.disabled
-) {
+        fields.push(customTechnicalInput);
+
+    }
+
 
     fields.push(
-        customCeilingInput
+        sitePercentInput,
+        outsideInput,
+        herasiInput
     );
 
+
+    return fields.filter(Boolean);
 }
 
-
-// حق فنی دلخواه
-
-if (
-    customTechnicalInput &&
-    !customTechnicalInput.disabled
-) {
-
-    fields.push(
-        customTechnicalInput
-    );
-
-}
-
-
-// فیلدهای اصلی پارسیان
-
-fields.push(
-    sitePercentInput,
-    outsideInput,
-    herasiInput
-);
-
-
-return fields;
-```
-
-}
 
 // ==============================
 // Enter
 // ==============================
 
-document.addEventListener(
-"keydown",
-function (event) {
+document.addEventListener("keydown", function (event) {
 
-```
     if (event.key !== "Enter") {
-
         return;
-
     }
 
 
     const active =
         document.activeElement;
 
-
     const fields =
         getFields();
-
 
     const index =
         fields.indexOf(active);
 
-
-    // ==========================
-    // داخل فیلد
-    // ==========================
 
     if (index !== -1) {
 
         event.preventDefault();
 
 
-        // رفتن به فیلد بعدی
-
         if (fields[index + 1]) {
 
             fields[index + 1].focus();
-
             fields[index + 1].select();
 
-            return;
+        } else {
+
+            calculate();
+
+            setTimeout(function () {
+
+                resultBox.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }, 100);
 
         }
 
-
-        // ======================
-        // آخرین فیلد
-        // ======================
-
-        calculate();
-
-
-        setTimeout(function () {
-
-            resultBox.scrollIntoView({
-
-                behavior: "smooth",
-
-                block: "center"
-
-            });
-
-        }, 100);
-
-
         return;
-
     }
 
-
-    // ==========================
-    // Enter در شروع صفحه
-    // ==========================
 
     if (
         !active ||
@@ -624,17 +366,14 @@ function (event) {
         if (first) {
 
             first.focus();
-
             first.select();
 
         }
 
     }
 
-}
-```
+});
 
-);
 
 // ==============================
 // کپی مبلغ
@@ -642,40 +381,57 @@ function (event) {
 
 function copyResult() {
 
-```
-navigator.clipboard.writeText(
-    finalAmount.toString()
-);
+    if (
+        navigator.clipboard &&
+        window.isSecureContext
+    ) {
+
+        navigator.clipboard.writeText(
+            finalAmount.toString()
+        );
+
+    } else {
+
+        const temp =
+            document.createElement("textarea");
+
+        temp.value =
+            finalAmount.toString();
+
+        temp.style.position = "fixed";
+        temp.style.opacity = "0";
+
+        document.body.appendChild(temp);
+
+        temp.select();
+
+        document.execCommand("copy");
+
+        temp.remove();
+
+    }
 
 
-toastBox.classList.add(
-    "show"
-);
+    toastBox.classList.add("show");
 
 
-setTimeout(function () {
+    setTimeout(function () {
 
-    toastBox.classList.remove(
-        "show"
-    );
+        toastBox.classList.remove("show");
 
-}, 1500);
-```
+    }, 1500);
 
 }
 
+
 // ==============================
-// کلیدهای میانبر
+// میانبرها
 // ==============================
 
-document.addEventListener(
-"keydown",
-function (event) {
+document.addEventListener("keydown", function (event) {
 
-```
-    // ========================
-    // F2 = کپی
-    // ========================
+
+    // F2 = کپی مبلغ
 
     if (event.key === "F2") {
 
@@ -686,9 +442,7 @@ function (event) {
     }
 
 
-    // ========================
     // F4 = پاک کردن فرم
-    // ========================
 
     if (event.key === "F4") {
 
@@ -696,38 +450,27 @@ function (event) {
 
 
         customCeilingInput.value = "";
-
         customTechnicalInput.value = "";
-
         sitePercentInput.value = "";
-
         outsideInput.value = "";
-
         herasiInput.value = "";
 
 
-        resultBox.innerHTML =
+        resultBox.textContent =
             "0 ریال";
 
 
         finalAmount = 0;
 
 
-        // بازگشت به حالت پیش‌فرض
-
         selectGeneral();
-
         selectFixedCeiling();
-
         selectFixed();
 
-
-        // اولین فیلد واقعی پارسیان
 
         setTimeout(function () {
 
             sitePercentInput.focus();
-
             sitePercentInput.select();
 
         }, 100);
@@ -735,21 +478,15 @@ function (event) {
     }
 
 
-    // ========================
-    // F8 = صفحه اصلی
-    // ========================
+    // F8 = بازگشت به صفحه اصلی
 
     if (event.key === "F8") {
 
         event.preventDefault();
-
 
         window.location.href =
             "index.html";
 
     }
 
-}
-```
-
-);
+});
