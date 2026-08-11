@@ -1,7 +1,9 @@
 let technical = 727000;
 let finalAmount = 0;
+
 let ceilingMode = "fixed";
 let specialty = "general";
+
 let selectedLimit = 20000000;
 
 // ==============================
@@ -36,7 +38,8 @@ document.getElementById("toast");
 function cleanNumber(value) {
 
 ```
-return String(value ?? "").replace(/,/g, "");
+return String(value ?? "")
+    .replace(/,/g, "");
 ```
 
 }
@@ -56,6 +59,8 @@ return Number(cleanNumber(value)) || 0;
 function formatNumberInput(input) {
 
 ```
+if (!input) return;
+
 input.addEventListener("input", function () {
 
     let oldValue = this.value;
@@ -176,10 +181,15 @@ function selectFixedCeiling() {
 ceilingMode = "fixed";
 
 
-selectedLimit =
-    specialty === "specialist"
-        ? 50000000
-        : 20000000;
+if (specialty === "specialist") {
+
+    selectedLimit = 50000000;
+
+} else {
+
+    selectedLimit = 20000000;
+
+}
 
 
 customCeilingInput.disabled = true;
@@ -301,7 +311,7 @@ customTechnicalInput.select();
 }
 
 // ==============================
-// محاسبه پارسیان
+// محاسبه
 // ==============================
 
 function calculate() {
@@ -317,45 +327,64 @@ const herasi =
 
 const percent =
     Number(
-        sitePercentInput.value
+        cleanNumber(sitePercentInput.value)
     ) || 0;
 
 
 const technicalValue =
     customTechnicalInput.disabled
+
         ? technical
+
         : getNumber(
             customTechnicalInput.value
         );
 
 
-// فرمول پارسیان:
-//
-// (خارج تعهد + حق فنی)
-// × ((100 - درصد فرانشیز سایت) / 100)
-// + فرانشیز هراسی
+/*
+    فرمول پارسیان:
+
+    (خارج تعهد + حق فنی)
+    × ((100 - درصد فرانشیز سایت) / 100)
+    + فرانشیز هراسی
+*/
+
 
 const calculatedAmount =
     Math.floor(
 
         (outside + technicalValue) *
-        ((100 - percent) / 100) +
+        ((100 - percent) / 100)
+        +
         herasi
 
     );
 
 
-// سقف تعهد
+// ==========================
+// تعیین سقف تعهد
+// ==========================
 
-const limit =
-    ceilingMode === "custom"
+let limit;
 
-        ? getNumber(
+
+if (ceilingMode === "custom") {
+
+    limit =
+        getNumber(
             customCeilingInput.value
-        )
+        );
 
-        : selectedLimit;
+} else {
 
+    limit = selectedLimit;
+
+}
+
+
+// ==========================
+// اعمال سقف
+// ==========================
 
 finalAmount =
     Math.min(
@@ -366,13 +395,14 @@ finalAmount =
 
 resultBox.textContent =
     finalAmount.toLocaleString("en-US")
-    + " ریال";
+    +
+    " ریال";
 ```
 
 }
 
 // ==============================
-// ترتیب فیلدها
+// ترتیب فیلدهای Enter
 // ==============================
 
 function getFields() {
@@ -381,9 +411,12 @@ function getFields() {
 const fields = [];
 
 
-// اگر سقف تعهد دلخواه باشد
+// سقف تعهد دلخواه
 
-if (!customCeilingInput.disabled) {
+if (
+    customCeilingInput &&
+    !customCeilingInput.disabled
+) {
 
     fields.push(
         customCeilingInput
@@ -392,9 +425,12 @@ if (!customCeilingInput.disabled) {
 }
 
 
-// اگر حق فنی دلخواه باشد
+// حق فنی دلخواه
 
-if (!customTechnicalInput.disabled) {
+if (
+    customTechnicalInput &&
+    !customTechnicalInput.disabled
+) {
 
     fields.push(
         customTechnicalInput
@@ -403,7 +439,7 @@ if (!customTechnicalInput.disabled) {
 }
 
 
-// ترتیب اصلی پارسیان
+// فیلدهای اصلی پارسیان
 
 fields.push(
     sitePercentInput,
@@ -412,7 +448,7 @@ fields.push(
 );
 
 
-return fields;
+return fields.filter(Boolean);
 ```
 
 }
@@ -443,14 +479,14 @@ function (event) {
         fields.indexOf(active);
 
 
-    // داخل یکی از فیلدها هستیم
+    // اگر داخل یکی از فیلدها هستیم
 
     if (index !== -1) {
 
         event.preventDefault();
 
 
-        // فیلد بعدی
+        // رفتن به فیلد بعدی
 
         if (fields[index + 1]) {
 
@@ -461,14 +497,14 @@ function (event) {
         }
 
 
-        // آخرین فیلد
+        // آخرین فیلد → محاسبه
 
         else {
 
             calculate();
 
 
-            setTimeout(() => {
+            setTimeout(function () {
 
                 resultBox.scrollIntoView({
 
@@ -488,8 +524,8 @@ function (event) {
     }
 
 
-    // صفحه تازه باز شده
-    // Enter باید وارد اولین فیلد شود
+    // Enter وقتی هیچ فیلدی فعال نیست
+    // → اولین فیلد قابل ورود
 
     if (
         !active ||
@@ -503,12 +539,15 @@ function (event) {
 
 
         const first =
-            fields.find(
-                input =>
+            fields.find(function (input) {
+
+                return (
                     input &&
                     !input.disabled &&
                     input.offsetParent !== null
-            );
+                );
+
+            });
 
 
         if (first) {
@@ -541,7 +580,7 @@ navigator.clipboard.writeText(
 toastBox.classList.add("show");
 
 
-setTimeout(() => {
+setTimeout(function () {
 
     toastBox.classList.remove("show");
 
@@ -595,6 +634,8 @@ function (event) {
         finalAmount = 0;
 
 
+        // بازگشت به حالت پیش‌فرض
+
         selectGeneral();
 
         selectFixedCeiling();
@@ -602,7 +643,7 @@ function (event) {
         selectFixed();
 
 
-        setTimeout(() => {
+        setTimeout(function () {
 
             sitePercentInput.focus();
 
@@ -613,7 +654,7 @@ function (event) {
     }
 
 
-    // F8 = بازگشت به صفحه اصلی
+    // F8 = صفحه اصلی
 
     if (event.key === "F8") {
 
